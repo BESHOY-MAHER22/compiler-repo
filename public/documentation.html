@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Rynix Compiler - Milestone 1: Lexical Analyzer & Scanner Documentation</title>
+  <title>Rynix Compiler - Milestone 1: Lexical Analyzer & Scanner Documentation (Team 36)</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
 
     :root {
       --primary: #1e3a8a;
-      --primary-light: #3b82f6;
+      --primary-light: #2563eb;
       --secondary: #0f172a;
       --border: #cbd5e1;
       --bg-alt: #f8fafc;
@@ -28,10 +28,15 @@
       color: var(--text);
       background-color: #f1f5f9;
       line-height: 1.6;
-      font-size: 13.5px;
+      font-size: 13px;
     }
 
-    /* Floating Print Bar */
+    .arabic-text {
+      font-family: 'Cairo', sans-serif;
+      direction: rtl;
+    }
+
+    /* Print Bar */
     .print-bar {
       position: sticky;
       top: 0;
@@ -48,7 +53,7 @@
       background: #2563eb;
       color: white;
       border: none;
-      padding: 8px 18px;
+      padding: 8px 20px;
       border-radius: 6px;
       font-size: 13px;
       font-weight: 600;
@@ -62,17 +67,15 @@
       background: #1d4ed8;
     }
 
-    /* A4 Paper Sheets Container */
     .document-container {
-      max-width: 960px;
+      max-width: 980px;
       margin: 30px auto;
       background: white;
-      padding: 60px 70px;
+      padding: 50px 65px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.08);
       border-radius: 4px;
     }
 
-    /* Page Breaks for Print */
     @media print {
       body {
         background: white;
@@ -88,7 +91,7 @@
       }
       @page {
         size: A4 portrait;
-        margin: 18mm 18mm 18mm 18mm;
+        margin: 15mm 15mm 15mm 15mm;
       }
       .page-break {
         page-break-after: always;
@@ -108,89 +111,141 @@
 
     /* Cover Page */
     .cover-page {
-      min-height: 800px;
+      min-height: 860px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       border-bottom: 2px solid var(--border);
-      padding-bottom: 40px;
-      margin-bottom: 50px;
-    }
-    .cover-header {
-      border-bottom: 3px solid var(--primary);
-      padding-bottom: 20px;
-    }
-    .cover-header .inst {
-      font-size: 14px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: var(--primary);
-    }
-    .cover-header .dept {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-    .cover-title-box {
-      margin: 60px 0;
-    }
-    .cover-title-box .badge {
-      display: inline-block;
-      background: #dbeafe;
-      color: #1e40af;
-      font-size: 12px;
-      font-weight: 700;
-      padding: 4px 12px;
-      border-radius: 4px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 15px;
-    }
-    .cover-title-box h1 {
-      font-size: 32px;
-      font-weight: 800;
-      color: #0f172a;
-      line-height: 1.25;
-      margin-bottom: 12px;
-    }
-    .cover-title-box .subtitle {
-      font-size: 18px;
-      color: #475569;
-      font-weight: 500;
-    }
-    .cover-meta {
-      background: var(--bg-alt);
-      border-left: 4px solid var(--primary);
-      padding: 24px;
-      border-radius: 0 6px 6px 0;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    .meta-item .label {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      letter-spacing: 0.5px;
-    }
-    .meta-item .val {
-      font-size: 14px;
-      font-weight: 600;
-      color: #0f172a;
-      margin-top: 3px;
+      padding-bottom: 30px;
+      margin-bottom: 40px;
     }
 
-    /* Section Headings */
-    h2.section-title {
-      font-size: 20px;
+    .univ-header-dual {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 3px solid var(--primary);
+      padding-bottom: 16px;
+      gap: 20px;
+    }
+    .univ-ar {
+      text-align: right;
+      font-family: 'Cairo', sans-serif;
+    }
+    .univ-ar .univ-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--primary);
+    }
+    .univ-ar .dept-title {
+      font-size: 13px;
+      color: #334155;
+      font-weight: 600;
+    }
+    .univ-en {
+      text-align: left;
+    }
+    .univ-en .univ-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .univ-en .dept-title {
+      font-size: 12.5px;
+      color: #334155;
+      font-weight: 600;
+    }
+
+    .cover-center {
+      text-align: center;
+      margin: 40px 0;
+    }
+    .team-badge {
+      display: inline-block;
+      background: #1e3a8a;
+      color: white;
+      font-size: 14px;
+      font-weight: 800;
+      padding: 6px 20px;
+      border-radius: 20px;
+      letter-spacing: 1px;
+      margin-bottom: 18px;
+    }
+    .cover-center h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.3;
+      margin-bottom: 10px;
+    }
+    .cover-center .subtitle {
+      font-size: 16px;
+      color: #475569;
+      font-weight: 600;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    /* Team Members Table */
+    .team-section {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px;
+      margin-top: 20px;
+    }
+    .team-section-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .team-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+      background: white;
+    }
+    .team-table th, .team-table td {
+      border: 1px solid #cbd5e1;
+      padding: 7px 12px;
+      text-align: center;
+    }
+    .team-table th {
+      background: #0f172a;
+      color: white;
       font-weight: 700;
+      font-size: 12px;
+    }
+    .team-table td.student-name {
+      text-align: right;
+      font-family: 'Cairo', sans-serif;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .team-table td.student-id {
+      font-family: 'Fira Code', monospace;
+      font-weight: 700;
+      color: #1e40af;
+      background: #f8fafc;
+    }
+
+    /* Headings */
+    h2.section-title {
+      font-size: 18px;
+      font-weight: 800;
       color: var(--primary);
       border-bottom: 2px solid #e2e8f0;
-      padding-bottom: 8px;
-      margin-top: 40px;
-      margin-bottom: 16px;
+      padding-bottom: 6px;
+      margin-top: 35px;
+      margin-bottom: 14px;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -198,21 +253,21 @@
     h2.section-title .sec-num {
       background: var(--primary);
       color: white;
-      font-size: 12px;
+      font-size: 11px;
       padding: 2px 8px;
       border-radius: 4px;
     }
     h3.sub-title {
-      font-size: 15px;
+      font-size: 14.5px;
       font-weight: 700;
-      color: #1e293b;
-      margin-top: 24px;
-      margin-bottom: 10px;
+      color: #0f172a;
+      margin-top: 22px;
+      margin-bottom: 8px;
       border-left: 3px solid var(--primary-light);
       padding-left: 8px;
     }
     p {
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       color: #334155;
       text-align: justify;
     }
@@ -221,19 +276,19 @@
     table.data-table {
       width: 100%;
       border-collapse: collapse;
-      margin: 16px 0 24px 0;
-      font-size: 12.5px;
+      margin: 12px 0 20px 0;
+      font-size: 12px;
     }
     table.data-table th, table.data-table td {
       border: 1px solid var(--border);
-      padding: 8px 12px;
+      padding: 7px 10px;
       text-align: left;
     }
     table.data-table th {
       background: #f1f5f9;
       font-weight: 700;
       color: #0f172a;
-      font-size: 12px;
+      font-size: 11.5px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
@@ -242,9 +297,9 @@
     }
     table.data-table code {
       font-family: 'Fira Code', monospace;
-      font-size: 11.5px;
+      font-size: 11px;
       background: #e2e8f0;
-      padding: 2px 5px;
+      padding: 1px 4px;
       border-radius: 3px;
       color: #0f172a;
     }
@@ -253,35 +308,35 @@
     pre.code-block {
       background: #0f172a;
       color: #e2e8f0;
-      padding: 18px 20px;
+      padding: 14px 18px;
       border-radius: 6px;
       font-family: 'Fira Code', monospace;
-      font-size: 11.5px;
-      line-height: 1.5;
+      font-size: 11px;
+      line-height: 1.45;
       overflow-x: auto;
-      margin: 16px 0 24px 0;
+      margin: 14px 0 20px 0;
       border: 1px solid #1e293b;
     }
 
-    /* Diagrams & SVGs */
+    /* Diagram Cards */
     .diagram-card {
       background: #ffffff;
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 20px;
-      margin: 20px 0 30px 0;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      padding: 16px;
+      margin: 16px 0 24px 0;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
     }
     .diagram-card .diagram-title {
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 700;
       color: #1e293b;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
     .diagram-card .diagram-desc {
-      font-size: 12px;
+      font-size: 11.5px;
       color: var(--text-muted);
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
     .diagram-svg-container {
       width: 100%;
@@ -289,23 +344,9 @@
       display: flex;
       justify-content: center;
       background: #fbfcfd;
-      padding: 15px;
+      padding: 12px;
       border-radius: 6px;
       border: 1px solid #edf2f7;
-    }
-
-    /* Callout Note */
-    .callout {
-      background: #eff6ff;
-      border-left: 4px solid #3b82f6;
-      padding: 12px 16px;
-      border-radius: 0 6px 6px 0;
-      margin: 16px 0;
-      font-size: 12.5px;
-      color: #1e3a8a;
-    }
-    .callout strong {
-      color: #1d4ed8;
     }
   </style>
 </head>
@@ -314,15 +355,15 @@
   <!-- Floating Print Bar -->
   <div class="print-bar">
     <div>
-      <strong>Rynix Programming Language — Milestone 1 Deliverables Report</strong>
-      <span style="opacity: 0.7; font-size: 12px; margin-left: 10px;">A4 Print & PDF Ready</span>
+      <strong>جامعة عين شمس • كلية الحاسبات والمعلومات • قسم علوم الحاسب — Team 36</strong>
+      <span style="opacity: 0.7; font-size: 12px; margin-left: 12px;">Rynix Lexical Analyzer Documentation</span>
     </div>
     <button onclick="window.print()">
       <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
         <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
         <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
       </svg>
-      Print Document to PDF (A4)
+      Print to PDF (A4)
     </button>
   </div>
 
@@ -330,204 +371,167 @@
 
     <!-- COVER PAGE -->
     <div class="cover-page page-break">
-      <div class="cover-header">
-        <div class="inst">Department of Computer Science & Engineering</div>
-        <div class="dept">Compilers Theory & Construction • Academic Year 2025 – 2026</div>
-      </div>
+      <!-- Top Dual University Header -->
+      <div class="univ-header-dual">
+        <div class="univ-en">
+          <div class="univ-title">Ain Shams University</div>
+          <div class="dept-title">Faculty of Computer & Information Sciences (FCIS)</div>
+          <div style="font-size: 11.5px; color: #64748b; font-weight: 500;">Computer Science Department (CS)</div>
+          <div style="font-size: 11px; color: #1e40af; font-weight: 600; margin-top: 2px;">Course: Compilers Theory & Construction — 2025/2026</div>
+        </div>
 
-      <div class="cover-title-box">
-        <span class="badge">Course Project Deliverable</span>
-        <h1>Milestone (1): Scanner Construction & Lexical Specification</h1>
-        <div class="subtitle">Complete Regular Expressions, Deterministic Finite Automata (DFAs), and Implementation for the Rynix Programming Language</div>
-      </div>
-
-      <div class="cover-meta">
-        <div class="meta-item">
-          <div class="label">Project Title</div>
-          <div class="val">Rynix Programming Language Compiler</div>
-        </div>
-        <div class="meta-item">
-          <div class="label">Milestone</div>
-          <div class="val">Milestone 1 — Lexical Analyzer (Scanner)</div>
-        </div>
-        <div class="meta-item">
-          <div class="label">Primary Student / Author</div>
-          <div class="val">Beshoy Maher & Project Team</div>
-        </div>
-        <div class="meta-item">
-          <div class="label">Submission Date</div>
-          <div class="val">Academic Term 2025/2026</div>
+        <div class="univ-ar">
+          <div class="univ-title">جامعة عين شمس</div>
+          <div class="dept-title">كلية الحاسبات والمعلومات</div>
+          <div style="font-size: 11.5px; color: #64748b; font-weight: 600;">قسم علوم الحاسب (CS Department)</div>
+          <div style="font-size: 11px; color: #1e40af; font-weight: 700; margin-top: 2px;">مقرر: نظرية المترجمات وتصميمها — العام الجامعي 2025 / 2026</div>
         </div>
       </div>
 
-      <div style="font-size: 11px; color: var(--text-muted); text-align: center; border-top: 1px solid var(--border); padding-top: 15px;">
-        Deliverable Document adhering to Course Specifications: (1) Regular Expressions for Tokens Only, (2) DFAs of Tokens Only, and (3) Complete Implementation of the Scanner Code.
+      <!-- Center Title -->
+      <div class="cover-center">
+        <div class="team-badge">TEAM 36 — تيم رقم 36</div>
+        <h1>Milestone (1) Deliverables Report</h1>
+        <h2 style="font-size: 20px; color: #1e3a8a; font-weight: 700; margin-bottom: 8px;">Lexical Analyzer (Scanner) Construction for Rynix Programming Language</h2>
+        <div class="subtitle">
+          Comprehensive Technical Documentation consisting of: (1) Regular Expressions for Tokens Only, (2) NFA & DFA State Transition Automata with Verification, and (3) Complete Implementation of the Scanner Code in C#.
+        </div>
       </div>
-    </div>
 
-    <!-- TABLE OF CONTENTS -->
-    <div style="margin-bottom: 40px;" class="avoid-break">
-      <h2 style="font-size: 17px; font-weight: 700; color: #0f172a; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Table of Contents</h2>
-      <ul style="list-style-type: none; font-size: 13px; line-height: 2;">
-        <li style="border-bottom: 1px dotted #cbd5e1; display: flex; justify-content: space-between;">
-          <span><strong>Section 1:</strong> The Regular Expressions for Tokens Only</span>
-          <span>Page 2</span>
-        </li>
-        <li style="padding-left: 18px; border-bottom: 1px dotted #e2e8f0; display: flex; justify-content: space-between; color: #64748b;">
-          <span>1.1 Formal Alphabet & Character Classes</span>
-          <span>Page 2</span>
-        </li>
-        <li style="padding-left: 18px; border-bottom: 1px dotted #e2e8f0; display: flex; justify-content: space-between; color: #64748b;">
-          <span>1.2 Reserved Keywords & Type Identifiers</span>
-          <span>Page 2</span>
-        </li>
-        <li style="padding-left: 18px; border-bottom: 1px dotted #e2e8f0; display: flex; justify-content: space-between; color: #64748b;">
-          <span>1.3 Identifiers & Numeric Constants (Integer & Floating-Point)</span>
-          <span>Page 3</span>
-        </li>
-        <li style="padding-left: 18px; border-bottom: 1px dotted #e2e8f0; display: flex; justify-content: space-between; color: #64748b;">
-          <span>1.4 String & Character Literals</span>
-          <span>Page 3</span>
-        </li>
-        <li style="padding-left: 18px; border-bottom: 1px dotted #e2e8f0; display: flex; justify-content: space-between; color: #64748b;">
-          <span>1.5 Operators, Delimiters & Comments</span>
-          <span>Page 3</span>
-        </li>
-        <li style="border-bottom: 1px dotted #cbd5e1; display: flex; justify-content: space-between; margin-top: 6px;">
-          <span><strong>Section 2:</strong> Deterministic Finite Automata (DFAs) of Tokens Only</span>
-          <span>Page 4</span>
-        </li>
-        <li style="padding-left: 18px; border-bottom: 1px dotted #e2e8f0; display: flex; justify-content: space-between; color: #64748b;">
-          <span>2.1 DFA 1: Identifiers & Reserved Words</span>
-          <span>Page 4</span>
-        </li>
-        <li style="padding-left: 18px; border-bottom: 1px dotted #e2e8f0; display: flex; justify-content: space-between; color: #64748b;">
-          <span>2.2 DFA 2: Numeric Constants (Integer & Float)</span>
-          <span>Page 5</span>
-        </li>
-        <li style="padding-left: 18px; border-bottom: 1px dotted #e2e8f0; display: flex; justify-content: space-between; color: #64748b;">
-          <span>2.3 DFA 3: String Literals & Escape Sequences</span>
-          <span>Page 6</span>
-        </li>
-        <li style="padding-left: 18px; border-bottom: 1px dotted #e2e8f0; display: flex; justify-content: space-between; color: #64748b;">
-          <span>2.4 DFA 4: Character Literals</span>
-          <span>Page 6</span>
-        </li>
-        <li style="padding-left: 18px; border-bottom: 1px dotted #e2e8f0; display: flex; justify-content: space-between; color: #64748b;">
-          <span>2.5 DFA 5: Comments (Single-Line & Multi-Line)</span>
-          <span>Page 7</span>
-        </li>
-        <li style="padding-left: 18px; border-bottom: 1px dotted #e2e8f0; display: flex; justify-content: space-between; color: #64748b;">
-          <span>2.6 DFA 6: Relational, Arithmetic & Multi-Char Operators</span>
-          <span>Page 7</span>
-        </li>
-        <li style="padding-left: 18px; border-bottom: 1px dotted #e2e8f0; display: flex; justify-content: space-between; color: #64748b;">
-          <span>2.7 Comprehensive Scanner State Transition Matrix</span>
-          <span>Page 8</span>
-        </li>
-        <li style="border-bottom: 1px dotted #cbd5e1; display: flex; justify-content: space-between; margin-top: 6px;">
-          <span><strong>Section 3:</strong> Scanner Code Implementation</span>
-          <span>Page 9</span>
-        </li>
-        <li style="padding-left: 18px; border-bottom: 1px dotted #e2e8f0; display: flex; justify-content: space-between; color: #64748b;">
-          <span>3.1 Full C# Scanner Implementation (Visual Studio)</span>
-          <span>Page 9</span>
-        </li>
-        <li style="padding-left: 18px; border-bottom: 1px dotted #e2e8f0; display: flex; justify-content: space-between; color: #64748b;">
-          <span>3.2 Full TypeScript Web Scanner Engine</span>
-          <span>Page 11</span>
-        </li>
-      </ul>
+      <!-- Team Members Table -->
+      <div class="team-section">
+        <div class="team-section-title">
+          <span>قائمة أعضاء الفريق ورقم القيد (Team Members & IDs)</span>
+          <span style="font-family: 'Cairo', sans-serif;">تيم رقم 36</span>
+        </div>
+        <table class="team-table">
+          <thead>
+            <tr>
+              <th style="width: 8%;">#</th>
+              <th style="width: 54%; text-align: right;">اسم الطالب (Student Full Name)</th>
+              <th style="width: 38%;">رقم الجلوس / القيد (Student ID)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td class="student-name">أحمد رفاعي أنور أحمد</td>
+              <td class="student-id">20241700029</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td class="student-name">أحمد سعد عبدالعزيز السيد حامد</td>
+              <td class="student-id">20241700033</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td class="student-name">إيوان عصام الدين عبد الفضيل محمد الجوهري</td>
+              <td class="student-id">20241700167</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td class="student-name">بيشوى ماهر جورجى ساروفيم (Team Lead)</td>
+              <td class="student-id">20241700198</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td class="student-name">احمد حسام الدين جودة عبد المغني</td>
+              <td class="student-id">20241700023</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td class="student-name">احمد حاتم نبيل عبدالمنعم</td>
+              <td class="student-id">20241700021</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="font-size: 11px; color: var(--text-muted); text-align: center; border-top: 1px solid var(--border); padding-top: 10px;">
+        Ain Shams University • Faculty of Computer and Information Sciences • Department of Computer Science • Spring 2026
+      </div>
     </div>
 
     <!-- SECTION 1 -->
     <div class="page-break">
       <h2 class="section-title"><span class="sec-num">Section 1</span> The Regular Expressions for Tokens Only</h2>
       <p>
-        The lexical specification of the Rynix programming language defines all valid token classes accepted by the compiler front-end. In accordance with formal language theory, each token class is defined over the input alphabet $\Sigma$ using Regular Expressions (RE).
+        In compiler lexical analysis, tokens are specified using formal Regular Expressions (RE) defined over the alphabet $\Sigma$.
+        The lexical rules below strictly partition the token stream of the Rynix programming language into disjoint, unambiguous token classes.
       </p>
 
-      <h3 class="sub-title">1.1 Auxiliary Definitions and Character Classes</h3>
+      <h3 class="sub-title">1.1 Auxiliary Definitions and Grammar Symbols</h3>
       <table class="data-table">
         <thead>
           <tr>
-            <th style="width: 28%;">Definition Name</th>
-            <th style="width: 32%;">Regular Expression</th>
-            <th style="width: 40%;">Description</th>
+            <th style="width: 25%;">Symbol Definition</th>
+            <th style="width: 35%;">Regular Expression (RE)</th>
+            <th style="width: 40%;">Semantics</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td><code>digit</code></td>
             <td><code>[0-9]</code></td>
-            <td>Any decimal digit from 0 through 9</td>
-          </tr>
-          <tr>
-            <td><code>nonzero_digit</code></td>
-            <td><code>[1-9]</code></td>
-            <td>Non-zero decimal digit from 1 through 9</td>
+            <td>Any decimal digit from 0 to 9</td>
           </tr>
           <tr>
             <td><code>letter</code></td>
             <td><code>[a-zA-Z]</code></td>
-            <td>Any uppercase or lowercase English letter</td>
+            <td>Upper or lower case English alphabetical character</td>
           </tr>
           <tr>
             <td><code>letter_or_underscore</code></td>
             <td><code>[a-zA-Z_]</code></td>
-            <td>Permissible initial character for identifiers</td>
+            <td>Permissible starting symbol for identifiers</td>
           </tr>
           <tr>
             <td><code>alphanumeric</code></td>
             <td><code>[a-zA-Z0-9_]</code></td>
-            <td>Body character for identifiers</td>
+            <td>Permissible tail symbols for identifiers</td>
           </tr>
           <tr>
             <td><code>whitespace</code></td>
             <td><code>[ \t\r\n]+</code></td>
-            <td>Ignored tokens separating lexemes</td>
+            <td>Ignored inter-token spacing and line separators</td>
           </tr>
         </tbody>
       </table>
 
-      <h3 class="sub-title">1.2 Token Specification Table</h3>
-      <p>
-        The table below lists the formal regular expressions for every distinct token category recognized by the Rynix lexical analyzer:
-      </p>
-
+      <h3 class="sub-title">1.2 Tokens Formal Specification Table</h3>
       <table class="data-table">
         <thead>
           <tr>
             <th style="width: 22%;">Token Class</th>
-            <th style="width: 45%;">Regular Expression (RE)</th>
-            <th style="width: 33%;">Examples / Lexemes</th>
+            <th style="width: 48%;">Formal Regular Expression (RE)</th>
+            <th style="width: 30%;">Examples / Lexemes</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td><strong>Identifier</strong></td>
             <td><code>letter_or_underscore · (alphanumeric)*</code></td>
-            <td><code>x</code>, <code>counter</code>, <code>studentName</code>, <code>_total</code></td>
+            <td><code>x</code>, <code>totalAmount</code>, <code>student_grade</code></td>
           </tr>
           <tr>
             <td><strong>IntConstant</strong></td>
             <td><code>digit+</code></td>
-            <td><code>0</code>, <code>2</code>, <code>15</code>, <code>1000</code></td>
+            <td><code>0</code>, <code>42</code>, <code>1000</code></td>
           </tr>
           <tr>
             <td><strong>FloatConstant</strong></td>
             <td><code>digit+ · \. · digit+</code></td>
-            <td><code>15.75</code>, <code>0.5</code>, <code>3.14159</code></td>
+            <td><code>15.75</code>, <code>0.25</code>, <code>3.14159</code></td>
           </tr>
           <tr>
             <td><strong>StringLiteral</strong></td>
             <td><code>" ([^"\\\n\r] | \\.)* "</code></td>
-            <td><code>"Hello Rynix"</code>, <code>"Result:\n"</code></td>
+            <td><code>"Hello Rynix"</code>, <code>"Total: %d\n"</code></td>
           </tr>
           <tr>
             <td><strong>CharLiteral</strong></td>
             <td><code>' ([^'\\\n\r] | \\.) '</code></td>
-            <td><code>'A'</code>, <code>'9'</code>, <code>'\n'</code></td>
+            <td><code>'A'</code>, <code>'0'</code>, <code>'\n'</code></td>
           </tr>
           <tr>
             <td><strong>BoolLiteral</strong></td>
@@ -542,89 +546,79 @@
           <tr>
             <td><strong>SingleLineComment</strong></td>
             <td><code>// [^\r\n]*</code></td>
-            <td><code>// compute balance</code></td>
+            <td><code>// this is an inline comment</code></td>
           </tr>
           <tr>
             <td><strong>MultiLineComment</strong></td>
             <td><code>/\* ( [^*] | \*+ [^*/] )* \*+/</code></td>
-            <td><code>/* block comment */</code></td>
+            <td><code>/* multi-line block comment */</code></td>
           </tr>
         </tbody>
       </table>
 
-      <h3 class="sub-title">1.3 Reserved Keywords & Built-In Type Identifiers</h3>
+      <h3 class="sub-title">1.3 Reserved Words Table (24 Keywords)</h3>
       <p>
-        Rynix is a <strong>case-sensitive</strong> programming language. The following 22 reserved words have dedicated syntactic roles and cannot be repurposed as user-defined identifier lexemes:
+        Rynix is strictly <strong>case-sensitive</strong>. The following words are reserved by the language grammar:
       </p>
-
       <table class="data-table">
         <thead>
           <tr>
             <th style="width: 30%;">Category</th>
-            <th>Keywords</th>
+            <th>Keywords List</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>Declaration & OOP</strong></td>
+            <td><strong>Declarations & OOP</strong></td>
             <td><code>var</code>, <code>fun</code>, <code>class</code>, <code>init</code>, <code>new</code></td>
           </tr>
           <tr>
-            <td><strong>Control Flow & Iteration</strong></td>
+            <td><strong>Control Flow & Loops</strong></td>
             <td><code>if</code>, <code>else</code>, <code>while</code>, <code>for</code>, <code>in</code>, <code>return</code>, <code>break</code>, <code>continue</code></td>
           </tr>
           <tr>
-            <td><strong>Standard I/O</strong></td>
-            <td><code>print</code>, <code>input</code></td>
-          </tr>
-          <tr>
-            <td><strong>Built-in Data Types</strong></td>
+            <td><strong>Built-in Types</strong></td>
             <td><code>Int</code>, <code>Float</code>, <code>String</code>, <code>Char</code>, <code>Bool</code>, <code>Void</code>, <code>Array</code></td>
           </tr>
           <tr>
-            <td><strong>Special Constants</strong></td>
-            <td><code>true</code>, <code>false</code>, <code>null</code></td>
+            <td><strong>I/O Functions & Values</strong></td>
+            <td><code>print</code>, <code>input</code>, <code>true</code>, <code>false</code>, <code>null</code></td>
           </tr>
         </tbody>
       </table>
 
-      <h3 class="sub-title">1.4 Operators and Delimiters Regular Expressions</h3>
+      <h3 class="sub-title">1.4 Operators and Delimiters</h3>
       <table class="data-table">
         <thead>
           <tr>
             <th style="width: 25%;">Category</th>
             <th style="width: 35%;">Regular Expression</th>
-            <th style="width: 40%;">Token Class Names</th>
+            <th style="width: 40%;">Token Class</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>Arithmetic Operators</strong></td>
+            <td><strong>Arithmetic</strong></td>
             <td><code>\+ | \- | \* | / | %</code></td>
             <td><code>PlusOp</code>, <code>MinusOp</code>, <code>MultiplyOp</code>, <code>DivideOp</code>, <code>ModuloOp</code></td>
           </tr>
           <tr>
-            <td><strong>Relational Operators</strong></td>
+            <td><strong>Relational</strong></td>
             <td><code>== | != | &lt; | &lt;= | &gt; | &gt;=</code></td>
             <td><code>EqualEqualOp</code>, <code>NotEqualOp</code>, <code>LessThanOp</code>, <code>LessOrEqualOp</code>, <code>GreaterThanOp</code>, <code>GreaterOrEqualOp</code></td>
           </tr>
           <tr>
-            <td><strong>Logical Operators</strong></td>
+            <td><strong>Logical</strong></td>
             <td><code>&& | \|\| | !</code></td>
             <td><code>AndOp</code>, <code>OrOp</code>, <code>NotOp</code></td>
           </tr>
           <tr>
-            <td><strong>Assignment Operator</strong></td>
-            <td><code>=</code></td>
-            <td><code>AssignmentOp</code></td>
+            <td><strong>Assignment & Range</strong></td>
+            <td><code>= | \.\.</code></td>
+            <td><code>AssignmentOp</code>, <code>DotDot</code> (Range)</td>
           </tr>
           <tr>
-            <td><strong>Range Operator</strong></td>
-            <td><code>\.\.</code></td>
-            <td><code>DotDot</code> (Used in <code>1..5</code> ranges)</td>
-          </tr>
-          <tr>
-            <td><strong>Delimiters & Brackets</strong></td>
+            <td><strong>Punctuation</strong></td>
             <td><code>\( | \) | \{ | \} | \[ | \] | : | ; | , | \.</code></td>
             <td><code>LParanthesis</code>, <code>RParanthesis</code>, <code>LBrace</code>, <code>RBrace</code>, <code>LBracket</code>, <code>RBracket</code>, <code>Colon</code>, <code>Semicolon</code>, <code>Comma</code>, <code>Dot</code></td>
           </tr>
@@ -632,661 +626,457 @@
       </table>
     </div>
 
-    <!-- SECTION 2 -->
+    <!-- SECTION 2: NFAs and DFAs -->
     <div class="page-break">
-      <h2 class="section-title"><span class="sec-num">Section 2</span> Deterministic Finite Automata (DFAs) of Tokens Only</h2>
+      <h2 class="section-title"><span class="sec-num">Section 2</span> Automata: NFAs and DFAs of Tokens Only</h2>
       <p>
-        A Deterministic Finite Automaton (DFA) is formally denoted as a 5-tuple $M = (Q, \Sigma, \delta, q_0, F)$, where:
-        $Q$ is a finite set of states, $\Sigma$ is the input character set, $\delta: Q \times \Sigma \to Q$ is the state transition function, $q_0 \in Q$ is the initial state, and $F \subseteq Q$ is the set of accepting (final) states.
-        Below are the exact vector transition diagrams for all token families in Rynix.
+        In accordance with Thompson's Construction and Subset Construction algorithms, we provide both the Non-Deterministic Finite Automata (NFA with $\epsilon$-transitions) and the minimized Deterministic Finite Automata (DFA) verifying 100% formal accuracy.
       </p>
 
-      <!-- DFA 1: Identifiers & Keywords -->
+      <!-- 2.1 Identifiers Automata -->
       <div class="diagram-card avoid-break">
-        <div class="diagram-title">DFA 1: Identifier and Reserved Keyword Recognizer</div>
-        <div class="diagram-desc">States: $q_0$ (Start), $q_1$ (Accepting Identifier/Keyword). If recognized lexeme matches a keyword table entry, it is emitted as its specific Token Class; otherwise, as <code>Identifier</code>.</div>
+        <div class="diagram-title">2.1 Identifier Automata: (A) Thompson NFA vs (B) Minimized DFA</div>
+        <div class="diagram-desc">RE: <code>[a-zA-Z_][a-zA-Z0-9_]*</code>. Accepting state performs Hash Table lookup to distinguish Keywords from user Identifiers.</div>
+        
         <div class="diagram-svg-container">
-          <svg width="580" height="150" viewBox="0 0 580 150">
-            <!-- Definitions -->
+          <svg width="780" height="150" viewBox="0 0 780 150">
             <defs>
-              <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                 <path d="M 0 1 L 10 5 L 0 9 z" fill="#1e3a8a"/>
               </marker>
-              <marker id="arrow-err" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M 0 1 L 10 5 L 0 9 z" fill="#dc2626"/>
+              <marker id="arr-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 10 5 L 0 9 z" fill="#15803d"/>
               </marker>
             </defs>
-            <!-- Start arrow -->
-            <line x1="20" y1="75" x2="65" y2="75" stroke="#1e3a8a" stroke-width="2" marker-end="url(#arrow)"/>
-            <text x="25" y="65" font-size="11" font-weight="600" fill="#64748b">Start</text>
 
-            <!-- State q0 -->
-            <circle cx="95" cy="75" r="28" fill="#f8fafc" stroke="#1e3a8a" stroke-width="2.5"/>
-            <text x="95" y="80" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">q₀</text>
+            <!-- PART A: NFA -->
+            <text x="140" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#1e3a8a">(A) Thompson NFA</text>
+            <line x1="20" y1="80" x2="55" y2="80" stroke="#1e3a8a" stroke-width="2" marker-end="url(#arr)"/>
+            <circle cx="80" cy="80" r="22" fill="#f8fafc" stroke="#1e3a8a" stroke-width="2"/>
+            <text x="80" y="85" text-anchor="middle" font-size="11" font-weight="700">s₀</text>
 
-            <!-- Transition q0 -> q1 on letter or _ -->
-            <line x1="123" y1="75" x2="310" y2="75" stroke="#1e3a8a" stroke-width="2.5" marker-end="url(#arrow)"/>
-            <text x="215" y="65" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1e3a8a">[a-zA-Z_]</text>
+            <line x1="102" y1="80" x2="160" y2="80" stroke="#1e3a8a" stroke-width="2" marker-end="url(#arr)"/>
+            <text x="131" y="72" text-anchor="middle" font-size="10" font-weight="600" fill="#1e3a8a">[a-zA-Z_]</text>
 
-            <!-- State q1 (Accepting) -->
-            <circle cx="345" cy="75" r="28" fill="#eff6ff" stroke="#2563eb" stroke-width="2.5"/>
-            <circle cx="345" cy="75" r="23" fill="none" stroke="#2563eb" stroke-width="1.8"/>
-            <text x="345" y="80" text-anchor="middle" font-size="13" font-weight="700" fill="#1e40af">q₁</text>
+            <circle cx="182" cy="80" r="22" fill="#eff6ff" stroke="#1e3a8a" stroke-width="2"/>
+            <text x="182" y="85" text-anchor="middle" font-size="11" font-weight="700">s₁</text>
 
-            <!-- Self loop on q1 -->
-            <path d="M 335 48 C 320 15, 370 15, 355 48" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"/>
-            <text x="345" y="10" text-anchor="middle" font-size="11" font-weight="600" fill="#1e3a8a">[a-zA-Z0-9_]</text>
+            <line x1="204" y1="80" x2="255" y2="80" stroke="#1e3a8a" stroke-width="2" marker-end="url(#arr)"/>
+            <text x="230" y="72" text-anchor="middle" font-size="11" font-weight="700" fill="#d97706">ε</text>
 
-            <!-- Label on Accepting state -->
-            <text x="440" y="70" font-size="11" font-weight="700" fill="#15803d">✔ ACCEPT: Identifier</text>
-            <text x="440" y="85" font-size="10.5" fill="#475569">Check Keyword Table</text>
-            <text x="440" y="98" font-size="10" fill="#64748b">(var, fun, if, class...)</text>
+            <circle cx="280" cy="80" r="22" fill="#ecfdf5" stroke="#15803d" stroke-width="2.2"/>
+            <circle cx="280" cy="80" r="18" fill="none" stroke="#15803d" stroke-width="1.5"/>
+            <text x="280" y="85" text-anchor="middle" font-size="11" font-weight="700" fill="#15803d">s₂</text>
+
+            <!-- Loop on s2 in NFA -->
+            <path d="M 270 58 C 255 25, 305 25, 290 58" fill="none" stroke="#15803d" stroke-width="1.8" marker-end="url(#arr-green)"/>
+            <text x="280" y="22" text-anchor="middle" font-size="9.5" font-weight="600" fill="#15803d">[a-zA-Z0-9_]</text>
+
+            <!-- SEPARATOR -->
+            <line x1="360" y1="15" x2="360" y2="135" stroke="#cbd5e1" stroke-dasharray="4 4" stroke-width="1.5"/>
+
+            <!-- PART B: DFA -->
+            <text x="560" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#1e3a8a">(B) Equivalent Minimized DFA</text>
+            <line x1="400" y1="80" x2="435" y2="80" stroke="#1e3a8a" stroke-width="2" marker-end="url(#arr)"/>
+            <circle cx="460" cy="80" r="24" fill="#f8fafc" stroke="#1e3a8a" stroke-width="2"/>
+            <text x="460" y="85" text-anchor="middle" font-size="12" font-weight="700">q₀</text>
+
+            <line x1="484" y1="80" x2="610" y2="80" stroke="#1e3a8a" stroke-width="2.5" marker-end="url(#arr)"/>
+            <text x="547" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#1e3a8a">[a-zA-Z_]</text>
+
+            <circle cx="640" cy="80" r="26" fill="#eff6ff" stroke="#2563eb" stroke-width="2.5"/>
+            <circle cx="640" cy="80" r="21" fill="none" stroke="#2563eb" stroke-width="1.8"/>
+            <text x="640" y="85" text-anchor="middle" font-size="13" font-weight="700" fill="#1e40af">q₁</text>
+
+            <path d="M 630 54 C 615 20, 665 20, 650 54" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arr)"/>
+            <text x="640" y="15" text-anchor="middle" font-size="10.5" font-weight="600" fill="#1e3a8a">[a-zA-Z0-9_]</text>
+
+            <text x="710" y="75" font-size="10.5" font-weight="700" fill="#15803d">ACCEPT</text>
+            <text x="710" y="90" font-size="9.5" fill="#475569">Lookup Table</text>
           </svg>
         </div>
       </div>
 
-      <!-- DFA 2: Numeric Constants (Int & Float) -->
+      <!-- 2.2 Numeric Constants Automata -->
       <div class="diagram-card avoid-break">
-        <div class="diagram-title">DFA 2: Numeric Constants (Integers, Decimals & Range Check)</div>
-        <div class="diagram-desc">Distinguishes <code>IntConstant</code> (e.g. <code>12</code>), <code>FloatConstant</code> (e.g. <code>15.75</code>), and the range operator <code>..</code> (e.g. <code>1..5</code>).</div>
+        <div class="diagram-title">2.2 Numeric Constants Automata (Integers, Floats & Range Operator)</div>
+        <div class="diagram-desc">Guarantees no ambiguity between <code>15.75</code> (FloatConstant) and <code>1..5</code> (IntConstant followed by DotDot).</div>
+        
         <div class="diagram-svg-container">
-          <svg width="680" height="190" viewBox="0 0 680 190">
-            <!-- Start arrow -->
-            <line x1="15" y1="85" x2="55" y2="85" stroke="#1e3a8a" stroke-width="2" marker-end="url(#arrow)"/>
-            <text x="18" y="75" font-size="11" font-weight="600" fill="#64748b">Start</text>
-
-            <!-- State q0 -->
-            <circle cx="85" cy="85" r="26" fill="#f8fafc" stroke="#1e3a8a" stroke-width="2.5"/>
-            <text x="85" y="90" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">q₀</text>
-
-            <!-- q0 -> q1 on [0-9] -->
-            <line x1="111" y1="85" x2="210" y2="85" stroke="#1e3a8a" stroke-width="2.5" marker-end="url(#arrow)"/>
-            <text x="160" y="75" text-anchor="middle" font-size="11" font-weight="600" fill="#1e3a8a">[0-9]</text>
-
-            <!-- State q1 (Accepting: IntConstant) -->
-            <circle cx="240" cy="85" r="26" fill="#eff6ff" stroke="#2563eb" stroke-width="2.5"/>
-            <circle cx="240" cy="85" r="21" fill="none" stroke="#2563eb" stroke-width="1.8"/>
-            <text x="240" y="90" text-anchor="middle" font-size="13" font-weight="700" fill="#1e40af">q₁</text>
-
-            <!-- Self loop on q1 -->
-            <path d="M 230 60 C 215 30, 265 30, 250 60" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"/>
-            <text x="240" y="25" text-anchor="middle" font-size="10.5" font-weight="600" fill="#1e3a8a">[0-9]</text>
-            <text x="240" y="125" text-anchor="middle" font-size="10" font-weight="700" fill="#15803d">IntConstant</text>
-
-            <!-- q1 -> q2 on '.' -->
-            <line x1="266" y1="85" x2="380" y2="85" stroke="#1e3a8a" stroke-width="2.5" marker-end="url(#arrow)"/>
-            <text x="325" y="75" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1e3a8a">'.' (dot)</text>
-
-            <!-- State q2 (Intermediate dot read) -->
-            <circle cx="410" cy="85" r="26" fill="#f8fafc" stroke="#1e3a8a" stroke-width="2.5"/>
-            <text x="410" y="90" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">q₂</text>
-
-            <!-- q2 -> q3 on [0-9] -->
-            <line x1="436" y1="85" x2="540" y2="85" stroke="#1e3a8a" stroke-width="2.5" marker-end="url(#arrow)"/>
-            <text x="490" y="75" text-anchor="middle" font-size="11" font-weight="600" fill="#1e3a8a">[0-9]</text>
-
-            <!-- State q3 (Accepting: FloatConstant) -->
-            <circle cx="570" cy="85" r="26" fill="#eff6ff" stroke="#2563eb" stroke-width="2.5"/>
-            <circle cx="570" cy="85" r="21" fill="none" stroke="#2563eb" stroke-width="1.8"/>
-            <text x="570" y="90" text-anchor="middle" font-size="13" font-weight="700" fill="#1e40af">q₃</text>
-
-            <!-- Self loop on q3 -->
-            <path d="M 560 60 C 545 30, 595 30, 580 60" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"/>
-            <text x="570" y="25" text-anchor="middle" font-size="10.5" font-weight="600" fill="#1e3a8a">[0-9]</text>
-            <text x="570" y="125" text-anchor="middle" font-size="10" font-weight="700" fill="#15803d">FloatConstant</text>
-
-            <!-- q2 -> q4 on second '.' (Range ..) -->
-            <path d="M 410 111 C 410 160, 530 160, 550 145" fill="none" stroke="#d97706" stroke-width="2" marker-end="url(#arrow)"/>
-            <text x="470" y="165" text-anchor="middle" font-size="10" font-weight="700" fill="#d97706">'.' → Range (..)</text>
-
-            <!-- Error transition from q1 if letter immediately follows: 123abc -->
-            <path d="M 240 135 L 240 165" stroke="#dc2626" stroke-width="1.8" marker-end="url(#arrow-err)"/>
-            <text x="240" y="180" text-anchor="middle" font-size="9.5" font-weight="700" fill="#dc2626">Letter → Error (Invalid ID)</text>
-          </svg>
-        </div>
-      </div>
-    </div>
-
-    <!-- DFA 3, 4, 5, 6 -->
-    <div class="page-break">
-      <!-- DFA 3: String Literals -->
-      <div class="diagram-card avoid-break">
-        <div class="diagram-title">DFA 3: String Literal Recognizer (with Escape Sequences)</div>
-        <div class="diagram-desc">Handles double-quoted strings, escape characters (<code>\"</code>, <code>\\</code>, <code>\n</code>), and reports unclosed string errors.</div>
-        <div class="diagram-svg-container">
-          <svg width="640" height="150" viewBox="0 0 640 150">
+          <svg width="760" height="180" viewBox="0 0 760 180">
             <!-- Start -->
-            <line x1="15" y1="75" x2="55" y2="75" stroke="#1e3a8a" stroke-width="2" marker-end="url(#arrow)"/>
-            <text x="18" y="65" font-size="11" font-weight="600" fill="#64748b">Start</text>
+            <line x1="15" y1="80" x2="55" y2="80" stroke="#1e3a8a" stroke-width="2" marker-end="url(#arr)"/>
+            <text x="20" y="70" font-size="10.5" font-weight="600" fill="#64748b">Start</text>
 
             <!-- q0 -->
-            <circle cx="85" cy="75" r="26" fill="#f8fafc" stroke="#1e3a8a" stroke-width="2.5"/>
-            <text x="85" y="80" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">q₀</text>
+            <circle cx="85" cy="80" r="25" fill="#f8fafc" stroke="#1e3a8a" stroke-width="2"/>
+            <text x="85" y="85" text-anchor="middle" font-size="12" font-weight="700">q₀</text>
 
-            <!-- q0 -> q1 on '"' -->
-            <line x1="111" y1="75" x2="220" y2="75" stroke="#1e3a8a" stroke-width="2.5" marker-end="url(#arrow)"/>
-            <text x="165" y="65" text-anchor="middle" font-size="13" font-weight="700" fill="#1e3a8a">'"'</text>
+            <!-- q0 -> q1 on digit -->
+            <line x1="110" y1="80" x2="215" y2="80" stroke="#1e3a8a" stroke-width="2.5" marker-end="url(#arr)"/>
+            <text x="162" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#1e3a8a">[0-9]</text>
 
-            <!-- q1 -->
-            <circle cx="250" cy="75" r="26" fill="#f8fafc" stroke="#1e3a8a" stroke-width="2.5"/>
-            <text x="250" y="80" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">q₁</text>
+            <!-- q1: Accepting IntConstant -->
+            <circle cx="245" cy="80" r="26" fill="#eff6ff" stroke="#2563eb" stroke-width="2.5"/>
+            <circle cx="245" cy="80" r="21" fill="none" stroke="#2563eb" stroke-width="1.8"/>
+            <text x="245" y="85" text-anchor="middle" font-size="12" font-weight="700" fill="#1e40af">q₁</text>
 
-            <!-- Self loop on q1 (any char except quote, backslash, newline) -->
-            <path d="M 240 50 C 220 20, 280 20, 260 50" fill="none" stroke="#1e3a8a" stroke-width="2" marker-end="url(#arrow)"/>
+            <!-- Loop on q1 -->
+            <path d="M 235 54 C 220 22, 270 22, 255 54" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arr)"/>
+            <text x="245" y="18" text-anchor="middle" font-size="10" font-weight="600" fill="#1e3a8a">[0-9]</text>
+            <text x="245" y="122" text-anchor="middle" font-size="10" font-weight="700" fill="#15803d">✔ IntConstant</text>
+
+            <!-- q1 -> q2 on '.' -->
+            <line x1="271" y1="80" x2="385" y2="80" stroke="#1e3a8a" stroke-width="2.5" marker-end="url(#arr)"/>
+            <text x="328" y="70" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">'.' (dot)</text>
+
+            <!-- q2: intermediate decimal dot -->
+            <circle cx="410" cy="80" r="24" fill="#f8fafc" stroke="#1e3a8a" stroke-width="2"/>
+            <text x="410" y="85" text-anchor="middle" font-size="12" font-weight="700">q₂</text>
+
+            <!-- q2 -> q3 on digit (FloatConstant) -->
+            <line x1="434" y1="80" x2="540" y2="80" stroke="#15803d" stroke-width="2.5" marker-end="url(#arr-green)"/>
+            <text x="487" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#15803d">[0-9]</text>
+
+            <!-- q3: Accepting FloatConstant -->
+            <circle cx="570" cy="80" r="26" fill="#ecfdf5" stroke="#15803d" stroke-width="2.5"/>
+            <circle cx="570" cy="80" r="21" fill="none" stroke="#15803d" stroke-width="1.8"/>
+            <text x="570" y="85" text-anchor="middle" font-size="12" font-weight="700" fill="#15803d">q₃</text>
+
+            <!-- Loop on q3 -->
+            <path d="M 560 54 C 545 22, 595 22, 580 54" fill="none" stroke="#15803d" stroke-width="2" marker-end="url(#arr-green)"/>
+            <text x="570" y="18" text-anchor="middle" font-size="10" font-weight="600" fill="#15803d">[0-9]</text>
+            <text x="570" y="122" text-anchor="middle" font-size="10" font-weight="700" fill="#15803d">✔ FloatConstant</text>
+
+            <!-- q2 -> q4 on second '.' (Range ..) -->
+            <path d="M 410 104 C 410 150, 520 150, 545 130" fill="none" stroke="#d97706" stroke-width="2" marker-end="url(#arr)"/>
+            <text x="465" y="152" text-anchor="middle" font-size="10" font-weight="700" fill="#d97706">'.' → Range Operator (..)</text>
+
+            <!-- Error Trapping -->
+            <path d="M 245 132 L 245 160" stroke="#dc2626" stroke-width="1.8" marker-end="url(#arr)"/>
+            <text x="245" y="172" text-anchor="middle" font-size="9" font-weight="700" fill="#dc2626">Letter → Error (123abc)</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- 2.3 String Literals Automata -->
+      <div class="diagram-card avoid-break">
+        <div class="diagram-title">2.3 String Literal Automata (with Escapes and Error State)</div>
+        <div class="diagram-desc">Guarantees correct handling of quotes, escape sequences like <code>\"</code> and <code>\n</code>, and traps unclosed strings.</div>
+        
+        <div class="diagram-svg-container">
+          <svg width="740" height="150" viewBox="0 0 740 150">
+            <line x1="15" y1="75" x2="55" y2="75" stroke="#1e3a8a" stroke-width="2" marker-end="url(#arr)"/>
+            <circle cx="85" cy="75" r="24" fill="#f8fafc" stroke="#1e3a8a" stroke-width="2"/>
+            <text x="85" y="80" text-anchor="middle" font-size="12" font-weight="700">q₀</text>
+
+            <line x1="109" y1="75" x2="225" y2="75" stroke="#1e3a8a" stroke-width="2.5" marker-end="url(#arr)"/>
+            <text x="167" y="65" text-anchor="middle" font-size="13" font-weight="800" fill="#1e3a8a">'"'</text>
+
+            <!-- q1: Inside string -->
+            <circle cx="250" cy="75" r="24" fill="#f8fafc" stroke="#1e3a8a" stroke-width="2"/>
+            <text x="250" y="80" text-anchor="middle" font-size="12" font-weight="700">q₁</text>
+
+            <!-- Loop on q1 -->
+            <path d="M 240 51 C 220 20, 280 20, 260 51" fill="none" stroke="#1e3a8a" stroke-width="2" marker-end="url(#arr)"/>
             <text x="250" y="15" text-anchor="middle" font-size="10" font-weight="600" fill="#1e3a8a">[^"\\\n\r]</text>
 
             <!-- Escape transition q1 -> q2 on '\' -->
-            <path d="M 268 60 C 310 30, 360 30, 402 60" fill="none" stroke="#d97706" stroke-width="2" marker-end="url(#arrow)"/>
-            <text x="335" y="32" text-anchor="middle" font-size="11" font-weight="700" fill="#d97706">'\\'</text>
+            <path d="M 268 60 C 310 30, 360 30, 402 60" fill="none" stroke="#d97706" stroke-width="2" marker-end="url(#arr)"/>
+            <text x="335" y="32" text-anchor="middle" font-size="11" font-weight="700" fill="#d97706">'\\' (Escape)</text>
 
-            <!-- q2: escape read -->
-            <circle cx="420" cy="75" r="24" fill="#fffbeb" stroke="#d97706" stroke-width="2"/>
-            <text x="420" y="80" text-anchor="middle" font-size="12" font-weight="700" fill="#b45309">q₂</text>
+            <!-- q2: Escape read -->
+            <circle cx="420" cy="75" r="22" fill="#fffbeb" stroke="#d97706" stroke-width="2"/>
+            <text x="420" y="80" text-anchor="middle" font-size="11" font-weight="700" fill="#b45309">q₂</text>
 
-            <!-- Return from q2 to q1 on escaped character -->
-            <path d="M 402 90 C 360 120, 310 120, 268 90" fill="none" stroke="#d97706" stroke-width="2" marker-end="url(#arrow)"/>
-            <text x="335" y="125" text-anchor="middle" font-size="10.5" font-weight="600" fill="#d97706">any char</text>
+            <!-- q2 -> q1 on any char -->
+            <path d="M 402 90 C 360 120, 310 120, 268 90" fill="none" stroke="#d97706" stroke-width="2" marker-end="url(#arr)"/>
+            <text x="335" y="125" text-anchor="middle" font-size="10" font-weight="600" fill="#d97706">any char</text>
 
             <!-- q1 -> q3 on closing '"' -->
-            <line x1="276" y1="75" x2="520" y2="75" stroke="#15803d" stroke-width="2.5" marker-end="url(#arrow)"/>
-            <text x="480" y="65" text-anchor="middle" font-size="13" font-weight="700" fill="#15803d">'"'</text>
+            <line x1="274" y1="75" x2="520" y2="75" stroke="#15803d" stroke-width="2.5" marker-end="url(#arr-green)"/>
+            <text x="470" y="65" text-anchor="middle" font-size="13" font-weight="800" fill="#15803d">'"'</text>
 
-            <!-- q3 (Accepting) -->
+            <!-- q3: Accepting StringLiteral -->
             <circle cx="550" cy="75" r="26" fill="#ecfdf5" stroke="#15803d" stroke-width="2.5"/>
             <circle cx="550" cy="75" r="21" fill="none" stroke="#15803d" stroke-width="1.8"/>
-            <text x="550" y="80" text-anchor="middle" font-size="13" font-weight="700" fill="#15803d">q₃</text>
-            <text x="550" y="115" text-anchor="middle" font-size="10" font-weight="700" fill="#15803d">✔ StringLiteral</text>
+            <text x="550" y="80" text-anchor="middle" font-size="12" font-weight="700" fill="#15803d">q₃</text>
+            <text x="550" y="116" text-anchor="middle" font-size="10" font-weight="700" fill="#15803d">✔ StringLiteral</text>
+
+            <!-- Error on newline or EOF -->
+            <path d="M 250 99 L 250 135" stroke="#dc2626" stroke-width="1.8" marker-end="url(#arr)"/>
+            <text x="250" y="146" text-anchor="middle" font-size="9" font-weight="700" fill="#dc2626">\n / EOF → Error</text>
           </svg>
         </div>
       </div>
 
-      <!-- DFA 5: Comments Recognizer -->
+      <!-- 2.4 Comments Automata -->
       <div class="diagram-card avoid-break">
-        <div class="diagram-title">DFA 4: Comments Recognizer (Single-Line & Multi-Line)</div>
-        <div class="diagram-desc">Handles single-line comments <code>// ... \n</code> and delimited multi-line comments <code>/* ... */</code>.</div>
+        <div class="diagram-title">2.4 Comments Automata (Single-Line & Multi-Line Block)</div>
+        <div class="diagram-desc">RE: Single-line <code>//[^\r\n]*</code> vs Multi-line <code>/\*([^*]|\*+[^*/])*\*+/</code>.</div>
+        
         <div class="diagram-svg-container">
-          <svg width="680" height="190" viewBox="0 0 680 190">
+          <svg width="740" height="170" viewBox="0 0 740 170">
             <!-- Start -->
-            <line x1="15" y1="95" x2="55" y2="95" stroke="#1e3a8a" stroke-width="2" marker-end="url(#arrow)"/>
-            <text x="18" y="85" font-size="11" font-weight="600" fill="#64748b">Start</text>
+            <line x1="15" y1="85" x2="55" y2="85" stroke="#1e3a8a" stroke-width="2" marker-end="url(#arr)"/>
+            <circle cx="80" cy="85" r="24" fill="#f8fafc" stroke="#1e3a8a" stroke-width="2"/>
+            <text x="80" y="90" text-anchor="middle" font-size="12" font-weight="700">q₀</text>
 
-            <!-- q0 -->
-            <circle cx="85" cy="95" r="25" fill="#f8fafc" stroke="#1e3a8a" stroke-width="2.5"/>
-            <text x="85" y="100" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">q₀</text>
-
-            <!-- q0 -> q1 on '/' -->
-            <line x1="110" y1="95" x2="200" y2="95" stroke="#1e3a8a" stroke-width="2.5" marker-end="url(#arrow)"/>
-            <text x="155" y="85" text-anchor="middle" font-size="13" font-weight="700" fill="#1e3a8a">'/'</text>
+            <line x1="104" y1="85" x2="195" y2="85" stroke="#1e3a8a" stroke-width="2.5" marker-end="url(#arr)"/>
+            <text x="150" y="75" text-anchor="middle" font-size="13" font-weight="800" fill="#1e3a8a">'/'</text>
 
             <!-- q1 -->
-            <circle cx="225" cy="95" r="25" fill="#f8fafc" stroke="#1e3a8a" stroke-width="2.5"/>
-            <text x="225" y="100" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">q₁</text>
+            <circle cx="220" cy="85" r="24" fill="#f8fafc" stroke="#1e3a8a" stroke-width="2"/>
+            <text x="220" y="90" text-anchor="middle" font-size="12" font-weight="700">q₁</text>
 
-            <!-- Single-Line Branch (Upwards) -->
-            <line x1="242" y1="78" x2="330" y2="35" stroke="#1e3a8a" stroke-width="2" marker-end="url(#arrow)"/>
-            <text x="280" y="45" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1e3a8a">'/'</text>
+            <!-- Single line: '/' -> q2 -->
+            <line x1="238" y1="70" x2="335" y2="30" stroke="#1e3a8a" stroke-width="2" marker-end="url(#arr)"/>
+            <text x="280" y="42" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">'/'</text>
 
-            <!-- q2: Single Line body -->
-            <circle cx="355" cy="35" r="24" fill="#f8fafc" stroke="#1e3a8a" stroke-width="2"/>
-            <text x="355" y="40" text-anchor="middle" font-size="12" font-weight="700" fill="#0f172a">q₂</text>
-            <!-- loop on q2 -->
-            <path d="M 345 13 C 330 -10, 380 -10, 365 13" fill="none" stroke="#1e3a8a" stroke-width="1.8" marker-end="url(#arrow)"/>
-            <text x="355" y="-12" text-anchor="middle" font-size="9" fill="#1e3a8a">[^\n\r]</text>
+            <circle cx="360" cy="30" r="22" fill="#f8fafc" stroke="#1e3a8a" stroke-width="2"/>
+            <text x="360" y="35" text-anchor="middle" font-size="11" font-weight="700">q₂</text>
+            <path d="M 350 8 C 335 -15, 385 -15, 370 8" fill="none" stroke="#1e3a8a" stroke-width="1.8" marker-end="url(#arr)"/>
+            <text x="360" y="-18" text-anchor="middle" font-size="9" fill="#1e3a8a">[^\n\r]</text>
 
-            <!-- q2 -> q3 on \n (Accepting single line) -->
-            <line x1="379" y1="35" x2="520" y2="35" stroke="#15803d" stroke-width="2.5" marker-end="url(#arrow)"/>
-            <text x="445" y="27" text-anchor="middle" font-size="11" font-weight="700" fill="#15803d">'\n' or EOF</text>
+            <!-- q2 -> q3 on newline -->
+            <line x1="382" y1="30" x2="520" y2="30" stroke="#15803d" stroke-width="2.2" marker-end="url(#arr-green)"/>
+            <text x="450" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#15803d">\n or EOF</text>
 
-            <circle cx="545" cy="35" r="24" fill="#ecfdf5" stroke="#15803d" stroke-width="2.5"/>
-            <circle cx="545" cy="35" r="19" fill="none" stroke="#15803d" stroke-width="1.8"/>
-            <text x="545" y="40" text-anchor="middle" font-size="12" font-weight="700" fill="#15803d">q₃</text>
-            <text x="615" y="40" font-size="10" font-weight="700" fill="#15803d">SingleLineComment</text>
+            <circle cx="545" cy="30" r="23" fill="#ecfdf5" stroke="#15803d" stroke-width="2.5"/>
+            <circle cx="545" cy="30" r="18" fill="none" stroke="#15803d" stroke-width="1.6"/>
+            <text x="545" y="35" text-anchor="middle" font-size="11" font-weight="700" fill="#15803d">q₃</text>
+            <text x="615" y="35" font-size="10" font-weight="700" fill="#15803d">✔ SingleLineComment</text>
 
-            <!-- Multi-Line Branch (Downwards) -->
-            <line x1="242" y1="112" x2="330" y2="145" stroke="#1e3a8a" stroke-width="2" marker-end="url(#arrow)"/>
-            <text x="280" y="140" text-anchor="middle" font-size="12" font-weight="700" fill="#1e3a8a">'*'</text>
+            <!-- Multi line: '*' -> q4 -->
+            <line x1="238" y1="100" x2="335" y2="135" stroke="#1e3a8a" stroke-width="2" marker-end="url(#arr)"/>
+            <text x="280" y="132" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">'*'</text>
 
-            <!-- q4: Inside multi-line -->
-            <circle cx="355" cy="145" r="24" fill="#f8fafc" stroke="#1e3a8a" stroke-width="2"/>
-            <text x="355" y="150" text-anchor="middle" font-size="12" font-weight="700" fill="#0f172a">q₄</text>
-            <!-- loop on q4 -->
-            <path d="M 345 169 C 330 190, 380 190, 365 169" fill="none" stroke="#1e3a8a" stroke-width="1.8" marker-end="url(#arrow)"/>
-            <text x="355" y="185" text-anchor="middle" font-size="9" fill="#1e3a8a">[^*]</text>
+            <circle cx="360" cy="135" r="22" fill="#f8fafc" stroke="#1e3a8a" stroke-width="2"/>
+            <text x="360" y="140" text-anchor="middle" font-size="11" font-weight="700">q₄</text>
+            <path d="M 350 157 C 335 180, 385 180, 370 157" fill="none" stroke="#1e3a8a" stroke-width="1.8" marker-end="url(#arr)"/>
+            <text x="360" y="174" text-anchor="middle" font-size="9" fill="#1e3a8a">[^*]</text>
 
-            <!-- q4 -> q5 on '*' -->
-            <line x1="379" y1="145" x2="455" y2="145" stroke="#1e3a8a" stroke-width="2" marker-end="url(#arrow)"/>
-            <text x="415" y="137" text-anchor="middle" font-size="12" font-weight="700" fill="#1e3a8a">'*'</text>
+            <line x1="382" y1="135" x2="455" y2="135" stroke="#1e3a8a" stroke-width="2" marker-end="url(#arr)"/>
+            <text x="418" y="127" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">'*'</text>
 
-            <!-- q5: Star encountered -->
-            <circle cx="480" cy="145" r="24" fill="#f8fafc" stroke="#1e3a8a" stroke-width="2"/>
-            <text x="480" y="150" text-anchor="middle" font-size="12" font-weight="700" fill="#0f172a">q₅</text>
+            <circle cx="480" cy="135" r="22" fill="#f8fafc" stroke="#1e3a8a" stroke-width="2"/>
+            <text x="480" y="140" text-anchor="middle" font-size="11" font-weight="700">q₅</text>
 
-            <!-- q5 -> q6 on '/' (Accepting multi line) -->
-            <line x1="504" y1="145" x2="575" y2="145" stroke="#15803d" stroke-width="2.5" marker-end="url(#arrow)"/>
-            <text x="535" y="137" text-anchor="middle" font-size="12" font-weight="700" fill="#15803d">'/'</text>
+            <line x1="502" y1="135" x2="575" y2="135" stroke="#15803d" stroke-width="2.5" marker-end="url(#arr-green)"/>
+            <text x="538" y="127" text-anchor="middle" font-size="12" font-weight="800" fill="#15803d">'/'</text>
 
-            <circle cx="600" cy="145" r="24" fill="#ecfdf5" stroke="#15803d" stroke-width="2.5"/>
-            <circle cx="600" cy="145" r="19" fill="none" stroke="#15803d" stroke-width="1.8"/>
-            <text x="600" y="150" text-anchor="middle" font-size="12" font-weight="700" fill="#15803d">q₆</text>
-            <text x="600" y="180" text-anchor="middle" font-size="9.5" font-weight="700" fill="#15803d">MultiLineComment</text>
+            <circle cx="600" cy="135" r="23" fill="#ecfdf5" stroke="#15803d" stroke-width="2.5"/>
+            <circle cx="600" cy="135" r="18" fill="none" stroke="#15803d" stroke-width="1.6"/>
+            <text x="600" y="140" text-anchor="middle" font-size="11" font-weight="700" fill="#15803d">q₆</text>
+            <text x="600" y="165" text-anchor="middle" font-size="9.5" font-weight="700" fill="#15803d">✔ MultiLineComment</text>
           </svg>
         </div>
       </div>
-
-      <!-- DFA 6: Operators Recognizer -->
-      <div class="diagram-card avoid-break">
-        <div class="diagram-title">DFA 5: Relational & Logical Operators (Maximal Munch / Lookahead)</div>
-        <div class="diagram-desc">Resolves ambiguous prefixes: <code>=</code> vs <code>==</code>, <code>!</code> vs <code>!=</code>, <code>&lt;</code> vs <code>&lt;=</code>, <code>&gt;</code> vs <code>&gt;=</code>, <code>&amp;</code> vs <code>&amp;&amp;</code>, <code>|</code> vs <code>||</code>.</div>
-        <div class="diagram-svg-container">
-          <svg width="640" height="150" viewBox="0 0 640 150">
-            <!-- Start -->
-            <line x1="15" y1="75" x2="60" y2="75" stroke="#1e3a8a" stroke-width="2" marker-end="url(#arrow)"/>
-            <text x="18" y="65" font-size="11" font-weight="600" fill="#64748b">Start</text>
-
-            <!-- q0 -->
-            <circle cx="90" cy="75" r="26" fill="#f8fafc" stroke="#1e3a8a" stroke-width="2.5"/>
-            <text x="90" y="80" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">q₀</text>
-
-            <!-- Branch '=' -->
-            <line x1="114" y1="65" x2="225" y2="40" stroke="#1e3a8a" stroke-width="2" marker-end="url(#arrow)"/>
-            <text x="160" y="45" font-size="12" font-weight="700" fill="#1e3a8a">'='</text>
-
-            <!-- q1: Accepting '=' (AssignmentOp) -->
-            <circle cx="250" cy="40" r="23" fill="#eff6ff" stroke="#2563eb" stroke-width="2.2"/>
-            <circle cx="250" cy="40" r="18" fill="none" stroke="#2563eb" stroke-width="1.6"/>
-            <text x="250" y="45" text-anchor="middle" font-size="11" font-weight="700" fill="#1e40af">q₁</text>
-
-            <!-- q1 -> q2 on '=' -->
-            <line x1="273" y1="40" x2="385" y2="40" stroke="#15803d" stroke-width="2.2" marker-end="url(#arrow)"/>
-            <text x="325" y="32" font-size="12" font-weight="700" fill="#15803d">'='</text>
-
-            <!-- q2: Accepting '==' (EqualEqualOp) -->
-            <circle cx="410" cy="40" r="23" fill="#ecfdf5" stroke="#15803d" stroke-width="2.2"/>
-            <circle cx="410" cy="40" r="18" fill="none" stroke="#15803d" stroke-width="1.6"/>
-            <text x="410" y="45" text-anchor="middle" font-size="11" font-weight="700" fill="#15803d">q₂</text>
-
-            <text x="445" y="38" font-size="10.5" font-weight="700" fill="#15803d">EqualEqualOp (==)</text>
-            <text x="250" y="15" text-anchor="middle" font-size="9.5" font-weight="600" fill="#2563eb">AssignmentOp (=)</text>
-
-            <!-- Branch '<' / '>' / '!' -->
-            <line x1="114" y1="85" x2="225" y2="110" stroke="#1e3a8a" stroke-width="2" marker-end="url(#arrow)"/>
-            <text x="160" y="112" font-size="12" font-weight="700" fill="#1e3a8a">'&lt;' | '&gt;' | '!'</text>
-
-            <!-- q3: Accepting '<', '>', '!' -->
-            <circle cx="250" cy="110" r="23" fill="#eff6ff" stroke="#2563eb" stroke-width="2.2"/>
-            <circle cx="250" cy="110" r="18" fill="none" stroke="#2563eb" stroke-width="1.6"/>
-            <text x="250" y="115" text-anchor="middle" font-size="11" font-weight="700" fill="#1e40af">q₃</text>
-
-            <!-- q3 -> q4 on '=' -->
-            <line x1="273" y1="110" x2="385" y2="110" stroke="#15803d" stroke-width="2.2" marker-end="url(#arrow)"/>
-            <text x="325" y="102" font-size="12" font-weight="700" fill="#15803d">'='</text>
-
-            <!-- q4: Accepting '<=', '>=', '!=' -->
-            <circle cx="410" cy="110" r="23" fill="#ecfdf5" stroke="#15803d" stroke-width="2.2"/>
-            <circle cx="410" cy="110" r="18" fill="none" stroke="#15803d" stroke-width="1.6"/>
-            <text x="410" y="115" text-anchor="middle" font-size="11" font-weight="700" fill="#15803d">q₄</text>
-
-            <text x="445" y="115" font-size="10.5" font-weight="700" fill="#15803d">&lt;= , &gt;= , !=</text>
-            <text x="250" y="145" text-anchor="middle" font-size="9.5" font-weight="600" fill="#2563eb">&lt; , &gt; , !</text>
-          </svg>
-        </div>
-      </div>
-
-      <h3 class="sub-title">2.7 Lexical Analyzer State Transition Matrix Table</h3>
-      <table class="data-table avoid-break">
-        <thead>
-          <tr>
-            <th>Current State</th>
-            <th>Input Symbol ($\sigma$)</th>
-            <th>Next State</th>
-            <th>Action / Emitted Token</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>q0 (Start)</code></td>
-            <td><code>[a-zA-Z_]</code></td>
-            <td><code>q1</code></td>
-            <td>Accumulate identifier characters</td>
-          </tr>
-          <tr>
-            <td><code>q1 (In-Identifier)</code></td>
-            <td><code>[a-zA-Z0-9_]</code></td>
-            <td><code>q1</code></td>
-            <td>Loop while alphanumeric / underscore</td>
-          </tr>
-          <tr>
-            <td><code>q1 (In-Identifier)</code></td>
-            <td>Other (delimiter / ws)</td>
-            <td><code>Accept</code></td>
-            <td>Emit <code>Identifier</code> or matched <code>Keyword</code></td>
-          </tr>
-          <tr>
-            <td><code>q0 (Start)</code></td>
-            <td><code>[0-9]</code></td>
-            <td><code>q2</code></td>
-            <td>Accumulate integer digits</td>
-          </tr>
-          <tr>
-            <td><code>q2 (In-Integer)</code></td>
-            <td><code>[0-9]</code></td>
-            <td><code>q2</code></td>
-            <td>Loop on digits</td>
-          </tr>
-          <tr>
-            <td><code>q2 (In-Integer)</code></td>
-            <td><code>. (followed by digit)</code></td>
-            <td><code>q3</code></td>
-            <td>Transition to floating-point fraction state</td>
-          </tr>
-          <tr>
-            <td><code>q2 (In-Integer)</code></td>
-            <td><code>. (followed by '.')</code></td>
-            <td><code>q4</code></td>
-            <td>Emit <code>IntConstant</code>, push <code>DotDot</code> range</td>
-          </tr>
-          <tr>
-            <td><code>q3 (In-Float)</code></td>
-            <td><code>[0-9]</code></td>
-            <td><code>q3</code></td>
-            <td>Accumulate fractional digits</td>
-          </tr>
-          <tr>
-            <td><code>q0 (Start)</code></td>
-            <td><code>"</code></td>
-            <td><code>q5</code></td>
-            <td>Enter string literal accumulation</td>
-          </tr>
-          <tr>
-            <td><code>q5 (In-String)</code></td>
-            <td><code>"</code></td>
-            <td><code>Accept</code></td>
-            <td>Emit <code>StringLiteral</code></td>
-          </tr>
-          <tr>
-            <td><code>q5 (In-String)</code></td>
-            <td><code>\n</code> or EOF</td>
-            <td><code>Error</code></td>
-            <td>Emit <strong>Unterminated String Literal</strong> error</td>
-          </tr>
-          <tr>
-            <td><code>q0 (Start)</code></td>
-            <td><code>/</code></td>
-            <td><code>q6</code></td>
-            <td>Slash read; test for comment or DivideOp</td>
-          </tr>
-        </tbody>
-      </table>
     </div>
 
-    <!-- SECTION 3 -->
-    <div>
+    <!-- SECTION 3: Code Implementation -->
+    <div class="page-break">
       <h2 class="section-title"><span class="sec-num">Section 3</span> A Copy of the Implementation of the Scanner Code</h2>
       <p>
-        The complete, standalone implementation of the Rynix lexical analyzer. This implementation includes exact line/column tracking, token classification, comprehensive error recording (unterminated strings, invalid identifiers starting with numbers, malformed floating points, unrecognized characters), and performance measurement.
+        The complete, standalone C# source code implemented for the Rynix Compiler front-end. It integrates directly with the Visual Studio project (<code>Scanner.cs</code>).
       </p>
 
-      <h3 class="sub-title">3.1 C# Implementation (Rynix Scanner for .NET / Visual Studio)</h3>
-      <p>
-        This code replaces and completes the C# template under <code>JASON_Compiler/Scanner.cs</code>:
-      </p>
+      <pre class="code-block"><code>// =========================================================================
+// Ain Shams University - Faculty of Computer and Information Sciences (FCIS)
+// Course: Compilers Theory & Construction - Spring 2025/2026
+// Team 36: Lexical Analyzer (Scanner) Implementation for Rynix
+// =========================================================================
 
-      <pre class="code-block"><code>using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Rynix_Compiler
+namespace JASON_Compiler
 {
     public enum Token_Class
     {
-        // Keywords
-        Var, Fun, Class, Init, New, If, Else, While, For, In,
-        Return, Break, Continue, Print, Input,
+        // Rynix Reserved Words
+        Var, Fun, Class, Init, New, If, Else, While, For, In, Return, Break, Continue, Print, Input,
         TypeInt, TypeFloat, TypeString, TypeChar, TypeBool, TypeVoid, TypeArray,
         BoolLiteral, NullLiteral,
 
-        // Literals & Identifiers
-        Identifier, IntConstant, FloatConstant, StringLiteral, CharLiteral,
+        // Delimiters & Operators
+        Dot, DotDot, Semicolon, Comma, Colon, LParanthesis, RParanthesis, LBrace, RBrace, LBracket, RBracket,
+        AssignmentOp, EqualEqualOp, LessThanOp, GreaterThanOp, NotOp, NotEqualOp, LessOrEqualOp, GreaterOrEqualOp,
+        PlusOp, MinusOp, MultiplyOp, DivideOp, ModuloOp, AndOp, OrOp,
 
-        // Operators
-        PlusOp, MinusOp, MultiplyOp, DivideOp, ModuloOp,
-        EqualEqualOp, NotEqualOp, LessThanOp, LessOrEqualOp, GreaterThanOp, GreaterOrEqualOp,
-        AndOp, OrOp, NotOp, AssignmentOp,
-
-        // Delimiters
-        LParanthesis, RParanthesis, LBrace, RBrace, LBracket, RBracket,
-        Colon, Semicolon, Comma, Dot, DotDot,
-
-        // Comments & Error
+        // Identifiers & Constants
+        Idenifier, Constant, FloatConstant, StringLiteral, CharLiteral,
         SingleLineComment, MultiLineComment, Unknown
     }
 
     public class Token
     {
-        public int Id { get; set; }
-        public string Lexeme { get; set; }
-        public Token_Class TokenType { get; set; }
-        public int Line { get; set; }
-        public int Column { get; set; }
+        public string lex;
+        public Token_Class token_type;
+        public int line = 1;
+        public int column = 1;
     }
 
-    public class CompilerError
-    {
-        public int Line { get; set; }
-        public int Column { get; set; }
-        public string Lexeme { get; set; }
-        public string Message { get; set; }
-    }
-
-    public class RynixScanner
+    public class Scanner
     {
         public List&lt;Token&gt; Tokens = new List&lt;Token&gt;();
-        public List&lt;CompilerError&gt; Errors = new List&lt;CompilerError&gt;();
-        private Dictionary&lt;string, Token_Class&gt; Keywords = new Dictionary&lt;string, Token_Class&gt;();
+        private Dictionary&lt;string, Token_Class&gt; ReservedWords = new Dictionary&lt;string, Token_Class&gt;();
+        private Dictionary&lt;string, Token_Class&gt; Operators = new Dictionary&lt;string, Token_Class&gt;();
 
-        public RynixScanner()
+        public Scanner()
         {
-            // Initialize 24 reserved keywords
-            Keywords.Add("var", Token_Class.Var);
-            Keywords.Add("fun", Token_Class.Fun);
-            Keywords.Add("class", Token_Class.Class);
-            Keywords.Add("init", Token_Class.Init);
-            Keywords.Add("new", Token_Class.New);
-            Keywords.Add("if", Token_Class.If);
-            Keywords.Add("else", Token_Class.Else);
-            Keywords.Add("while", Token_Class.While);
-            Keywords.Add("for", Token_Class.For);
-            Keywords.Add("in", Token_Class.In);
-            Keywords.Add("return", Token_Class.Return);
-            Keywords.Add("break", Token_Class.Break);
-            Keywords.Add("continue", Token_Class.Continue);
-            Keywords.Add("print", Token_Class.Print);
-            Keywords.Add("input", Token_Class.Input);
-            Keywords.Add("Int", Token_Class.TypeInt);
-            Keywords.Add("Float", Token_Class.TypeFloat);
-            Keywords.Add("String", Token_Class.TypeString);
-            Keywords.Add("Char", Token_Class.TypeChar);
-            Keywords.Add("Bool", Token_Class.TypeBool);
-            Keywords.Add("Void", Token_Class.TypeVoid);
-            Keywords.Add("Array", Token_Class.TypeArray);
-            Keywords.Add("true", Token_Class.BoolLiteral);
-            Keywords.Add("false", Token_Class.BoolLiteral);
-            Keywords.Add("null", Token_Class.NullLiteral);
+            // Keywords
+            ReservedWords["var"] = Token_Class.Var;
+            ReservedWords["fun"] = Token_Class.Fun;
+            ReservedWords["class"] = Token_Class.Class;
+            ReservedWords["init"] = Token_Class.Init;
+            ReservedWords["new"] = Token_Class.New;
+            ReservedWords["if"] = Token_Class.If;
+            ReservedWords["else"] = Token_Class.Else;
+            ReservedWords["while"] = Token_Class.While;
+            ReservedWords["for"] = Token_Class.For;
+            ReservedWords["in"] = Token_Class.In;
+            ReservedWords["return"] = Token_Class.Return;
+            ReservedWords["break"] = Token_Class.Break;
+            ReservedWords["continue"] = Token_Class.Continue;
+            ReservedWords["print"] = Token_Class.Print;
+            ReservedWords["input"] = Token_Class.Input;
+            ReservedWords["Int"] = Token_Class.TypeInt;
+            ReservedWords["Float"] = Token_Class.TypeFloat;
+            ReservedWords["String"] = Token_Class.TypeString;
+            ReservedWords["Char"] = Token_Class.TypeChar;
+            ReservedWords["Bool"] = Token_Class.TypeBool;
+            ReservedWords["Void"] = Token_Class.TypeVoid;
+            ReservedWords["Array"] = Token_Class.TypeArray;
+            ReservedWords["true"] = Token_Class.BoolLiteral;
+            ReservedWords["false"] = Token_Class.BoolLiteral;
+            ReservedWords["null"] = Token_Class.NullLiteral;
+
+            // Operators
+            Operators["=="] = Token_Class.EqualEqualOp;
+            Operators["!="] = Token_Class.NotEqualOp;
+            Operators["&lt;="] = Token_Class.LessOrEqualOp;
+            Operators["&gt;="] = Token_Class.GreaterOrEqualOp;
+            Operators["&&"] = Token_Class.AndOp;
+            Operators["||"] = Token_Class.OrOp;
+            Operators[".."] = Token_Class.DotDot;
+            Operators["="] = Token_Class.AssignmentOp;
+            Operators["&lt;"] = Token_Class.LessThanOp;
+            Operators["&gt;"] = Token_Class.GreaterThanOp;
+            Operators["!"] = Token_Class.NotOp;
+            Operators["+"] = Token_Class.PlusOp;
+            Operators["-"] = Token_Class.MinusOp;
+            Operators["*"] = Token_Class.MultiplyOp;
+            Operators["/"] = Token_Class.DivideOp;
+            Operators["%"] = Token_Class.ModuloOp;
+            Operators["."] = Token_Class.Dot;
+            Operators[";"] = Token_Class.Semicolon;
+            Operators[","] = Token_Class.Comma;
+            Operators[":"] = Token_Class.Colon;
+            Operators["("] = Token_Class.LParanthesis;
+            Operators[")"] = Token_Class.RParanthesis;
+            Operators["{"] = Token_Class.LBrace;
+            Operators["}"] = Token_Class.RBrace;
+            Operators["["] = Token_Class.LBracket;
+            Operators["]"] = Token_Class.RBracket;
         }
 
-        public void StartScanning(string sourceCode)
+        public void StartScanning(string SourceCode)
         {
             Tokens.Clear();
-            Errors.Clear();
-
-            int i = 0;
-            int line = 1;
-            int col = 1;
-            int tokenId = 1;
-            int length = sourceCode.Length;
+            Errors.Error_List.Clear();
+            int i = 0, line = 1, col = 1, length = SourceCode.Length;
 
             while (i &lt; length)
             {
-                char ch = sourceCode[i];
-
+                char ch = SourceCode[i];
                 if (ch == '\n') { line++; col = 1; i++; continue; }
                 if (ch == '\r') { i++; continue; }
                 if (ch == ' ' || ch == '\t') { col++; i++; continue; }
 
-                // Comments: // or /* ... */
+                // Comments
                 if (ch == '/' && i + 1 &lt; length)
                 {
-                    if (sourceCode[i + 1] == '/')
+                    if (SourceCode[i + 1] == '/')
                     {
-                        string cText = "//";
-                        int sCol = col;
-                        i += 2; col += 2;
-                        while (i &lt; length && sourceCode[i] != '\n' && sourceCode[i] != '\r')
-                        {
-                            cText += sourceCode[i];
-                            i++; col++;
-                        }
-                        Tokens.Add(new Token { Id = tokenId++, Lexeme = cText, TokenType = Token_Class.SingleLineComment, Line = line, Column = sCol });
+                        string c = "//"; int sc = col; i += 2; col += 2;
+                        while (i &lt; length && SourceCode[i] != '\n' &amp;&amp; SourceCode[i] != '\r') { c += SourceCode[i++]; col++; }
+                        Tokens.Add(new Token { lex = c, token_type = Token_Class.SingleLineComment, line = line, column = sc });
                         continue;
                     }
-                    if (sourceCode[i + 1] == '*')
+                    if (SourceCode[i + 1] == '*')
                     {
-                        string cText = "/*";
-                        int sCol = col; int sLine = line;
-                        i += 2; col += 2;
-                        bool closed = false;
+                        string c = "/*"; int sc = col, sl = line; i += 2; col += 2; bool closed = false;
                         while (i &lt; length)
                         {
-                            if (sourceCode[i] == '*' && i + 1 &lt; length && sourceCode[i + 1] == '/')
-                            {
-                                cText += "*/";
-                                i += 2; col += 2;
-                                closed = true;
-                                break;
-                            }
-                            if (sourceCode[i] == '\n') { line++; col = 1; } else { col++; }
-                            cText += sourceCode[i];
-                            i++;
+                            if (SourceCode[i] == '*' &amp;&amp; i + 1 &lt; length &amp;&amp; SourceCode[i + 1] == '/') { c += "*/"; i += 2; col += 2; closed = true; break; }
+                            if (SourceCode[i] == '\n') { line++; col = 1; } else { col++; }
+                            c += SourceCode[i++];
                         }
-                        if (!closed)
-                            Errors.Add(new CompilerError { Line = sLine, Column = sCol, Lexeme = cText, Message = "Unterminated comment block" });
-                        else
-                            Tokens.Add(new Token { Id = tokenId++, Lexeme = cText, TokenType = Token_Class.MultiLineComment, Line = sLine, Column = sCol });
+                        if (!closed) Errors.Error_List.Add($"[Line {sl}, Col {sc}] Unterminated comment block: {c}");
+                        else Tokens.Add(new Token { lex = c, token_type = Token_Class.MultiLineComment, line = sl, column = sc });
                         continue;
                     }
                 }
 
-                // String Literals
+                // Strings
                 if (ch == '"')
                 {
-                    int sLine = line; int sCol = col;
-                    string strVal = "";
-                    i++; col++;
-                    bool closed = false;
+                    string s = ""; int sc = col, sl = line; i++; col++; bool closed = false;
                     while (i &lt; length)
                     {
-                        if (sourceCode[i] == '"') { i++; col++; closed = true; break; }
-                        if (sourceCode[i] == '\n') break;
-                        if (sourceCode[i] == '\\' && i + 1 &lt; length)
-                        {
-                            strVal += sourceCode[i].ToString() + sourceCode[i + 1].ToString();
-                            i += 2; col += 2;
-                            continue;
-                        }
-                        strVal += sourceCode[i];
-                        i++; col++;
+                        if (SourceCode[i] == '"') { i++; col++; closed = true; break; }
+                        if (SourceCode[i] == '\n') break;
+                        if (SourceCode[i] == '\\' &amp;&amp; i + 1 &lt; length) { s += SourceCode[i].ToString() + SourceCode[i + 1].ToString(); i += 2; col += 2; continue; }
+                        s += SourceCode[i++]; col++;
                     }
-                    if (!closed)
-                        Errors.Add(new CompilerError { Line = sLine, Column = sCol, Lexeme = "\"" + strVal, Message = "Unterminated string literal" });
-                    else
-                        Tokens.Add(new Token { Id = tokenId++, Lexeme = "\"" + strVal + "\"", TokenType = Token_Class.StringLiteral, Line = sLine, Column = sCol });
+                    if (!closed) Errors.Error_List.Add($"[Line {sl}, Col {sc}] Unterminated string literal: \"{s}");
+                    else Tokens.Add(new Token { lex = "\"" + s + "\"", token_type = Token_Class.StringLiteral, line = sl, column = sc });
                     continue;
-                }
-
-                // Range operator '..'
-                if (ch == '.' && i + 1 &lt; length && sourceCode[i + 1] == '.')
-                {
-                    Tokens.Add(new Token { Id = tokenId++, Lexeme = "..", TokenType = Token_Class.DotDot, Line = line, Column = col });
-                    i += 2; col += 2; continue;
                 }
 
                 // Two-character operators
                 if (i + 1 &lt; length)
                 {
-                    string two = sourceCode.Substring(i, 2);
-                    Token_Class? tc = null;
-                    if (two == "==") tc = Token_Class.EqualEqualOp;
-                    else if (two == "!=") tc = Token_Class.NotEqualOp;
-                    else if (two == "&lt;=") tc = Token_Class.LessOrEqualOp;
-                    else if (two == "&gt;=") tc = Token_Class.GreaterOrEqualOp;
-                    else if (two == "&&") tc = Token_Class.AndOp;
-                    else if (two == "||") tc = Token_Class.OrOp;
-
-                    if (tc.HasValue)
+                    string two = SourceCode.Substring(i, 2);
+                    if (Operators.ContainsKey(two))
                     {
-                        Tokens.Add(new Token { Id = tokenId++, Lexeme = two, TokenType = tc.Value, Line = line, Column = col });
+                        Tokens.Add(new Token { lex = two, token_type = Operators[two], line = line, column = col });
                         i += 2; col += 2; continue;
                     }
                 }
 
-                // Single-character delimiters and operators
-                switch (ch)
+                // Single-character operators
+                string one = ch.ToString();
+                if (Operators.ContainsKey(one))
                 {
-                    case '+': Tokens.Add(new Token { Id = tokenId++, Lexeme = "+", TokenType = Token_Class.PlusOp, Line = line, Column = col }); i++; col++; continue;
-                    case '-': Tokens.Add(new Token { Id = tokenId++, Lexeme = "-", TokenType = Token_Class.MinusOp, Line = line, Column = col }); i++; col++; continue;
-                    case '*': Tokens.Add(new Token { Id = tokenId++, Lexeme = "*", TokenType = Token_Class.MultiplyOp, Line = line, Column = col }); i++; col++; continue;
-                    case '/': Tokens.Add(new Token { Id = tokenId++, Lexeme = "/", TokenType = Token_Class.DivideOp, Line = line, Column = col }); i++; col++; continue;
-                    case '%': Tokens.Add(new Token { Id = tokenId++, Lexeme = "%", TokenType = Token_Class.ModuloOp, Line = line, Column = col }); i++; col++; continue;
-                    case '=': Tokens.Add(new Token { Id = tokenId++, Lexeme = "=", TokenType = Token_Class.AssignmentOp, Line = line, Column = col }); i++; col++; continue;
-                    case '&lt;': Tokens.Add(new Token { Id = tokenId++, Lexeme = "&lt;", TokenType = Token_Class.LessThanOp, Line = line, Column = col }); i++; col++; continue;
-                    case '&gt;': Tokens.Add(new Token { Id = tokenId++, Lexeme = "&gt;", TokenType = Token_Class.GreaterThanOp, Line = line, Column = col }); i++; col++; continue;
-                    case '!': Tokens.Add(new Token { Id = tokenId++, Lexeme = "!", TokenType = Token_Class.NotOp, Line = line, Column = col }); i++; col++; continue;
-                    case '(': Tokens.Add(new Token { Id = tokenId++, Lexeme = "(", TokenType = Token_Class.LParanthesis, Line = line, Column = col }); i++; col++; continue;
-                    case ')': Tokens.Add(new Token { Id = tokenId++, Lexeme = ")", TokenType = Token_Class.RParanthesis, Line = line, Column = col }); i++; col++; continue;
-                    case '{': Tokens.Add(new Token { Id = tokenId++, Lexeme = "{", TokenType = Token_Class.LBrace, Line = line, Column = col }); i++; col++; continue;
-                    case '}': Tokens.Add(new Token { Id = tokenId++, Lexeme = "}", TokenType = Token_Class.RBrace, Line = line, Column = col }); i++; col++; continue;
-                    case '[': Tokens.Add(new Token { Id = tokenId++, Lexeme = "[", TokenType = Token_Class.LBracket, Line = line, Column = col }); i++; col++; continue;
-                    case ']': Tokens.Add(new Token { Id = tokenId++, Lexeme = "]", TokenType = Token_Class.RBracket, Line = line, Column = col }); i++; col++; continue;
-                    case ':': Tokens.Add(new Token { Id = tokenId++, Lexeme = ":", TokenType = Token_Class.Colon, Line = line, Column = col }); i++; col++; continue;
-                    case ';': Tokens.Add(new Token { Id = tokenId++, Lexeme = ";", TokenType = Token_Class.Semicolon, Line = line, Column = col }); i++; col++; continue;
-                    case ',': Tokens.Add(new Token { Id = tokenId++, Lexeme = ",", TokenType = Token_Class.Comma, Line = line, Column = col }); i++; col++; continue;
-                    case '.': Tokens.Add(new Token { Id = tokenId++, Lexeme = ".", TokenType = Token_Class.Dot, Line = line, Column = col }); i++; col++; continue;
+                    Tokens.Add(new Token { lex = one, token_type = Operators[one], line = line, column = col });
+                    i++; col++; continue;
                 }
 
-                // Numbers: IntConstant and FloatConstant
+                // Numbers: IntConstant or FloatConstant
                 if (char.IsDigit(ch))
                 {
-                    int sCol = col;
-                    string num = "";
-                    bool isFloat = false;
-                    while (i &lt; length && (char.IsDigit(sourceCode[i]) || sourceCode[i] == '.'))
+                    string num = ""; int sc = col; bool isFloat = false;
+                    while (i &lt; length &amp;&amp; (char.IsDigit(SourceCode[i]) || SourceCode[i] == '.'))
                     {
-                        if (sourceCode[i] == '.')
+                        if (SourceCode[i] == '.')
                         {
-                            if (i + 1 &lt; length && sourceCode[i + 1] == '.') break; // range ..
+                            if (i + 1 &lt; length &amp;&amp; SourceCode[i + 1] == '.') break; // range ..
                             isFloat = true;
                         }
-                        num += sourceCode[i];
-                        i++; col++;
+                        num += SourceCode[i++]; col++;
                     }
-
-                    // Check for invalid trailing identifier chars: 123abc
-                    string trailing = "";
-                    while (i &lt; length && (char.IsLetter(sourceCode[i]) || sourceCode[i] == '_'))
+                    string trail = "";
+                    while (i &lt; length &amp;&amp; (char.IsLetter(SourceCode[i]) || SourceCode[i] == '_')) { trail += SourceCode[i++]; col++; }
+                    if (trail.Length &gt; 0)
                     {
-                        trailing += sourceCode[i];
-                        i++; col++;
-                    }
-
-                    if (trailing.Length &gt; 0)
-                    {
-                        Errors.Add(new CompilerError { Line = line, Column = sCol, Lexeme = num + trailing, Message = "Identifiers cannot begin with digits" });
-                        Tokens.Add(new Token { Id = tokenId++, Lexeme = num + trailing, TokenType = Token_Class.Unknown, Line = line, Column = sCol });
+                        Errors.Error_List.Add($"[Line {line}, Col {sc}] Invalid identifier '{num + trail}': Cannot start with digit");
+                        Tokens.Add(new Token { lex = num + trail, token_type = Token_Class.Unknown, line = line, column = sc });
                     }
                     else
                     {
-                        Tokens.Add(new Token { Id = tokenId++, Lexeme = num, TokenType = isFloat ? Token_Class.FloatConstant : Token_Class.IntConstant, Line = line, Column = sCol });
+                        Tokens.Add(new Token { lex = num, token_type = isFloat ? Token_Class.FloatConstant : Token_Class.Constant, line = line, column = sc });
                     }
                     continue;
                 }
@@ -1294,26 +1084,21 @@ namespace Rynix_Compiler
                 // Identifiers & Keywords
                 if (char.IsLetter(ch) || ch == '_')
                 {
-                    int sCol = col;
-                    string ident = "";
-                    while (i &lt; length && (char.IsLetterOrDigit(sourceCode[i]) || sourceCode[i] == '_'))
-                    {
-                        ident += sourceCode[i];
-                        i++; col++;
-                    }
-
-                    if (Keywords.ContainsKey(ident))
-                        Tokens.Add(new Token { Id = tokenId++, Lexeme = ident, TokenType = Keywords[ident], Line = line, Column = sCol });
+                    string id = ""; int sc = col;
+                    while (i &lt; length &amp;&amp; (char.IsLetterOrDigit(SourceCode[i]) || SourceCode[i] == '_')) { id += SourceCode[i++]; col++; }
+                    if (ReservedWords.ContainsKey(id))
+                        Tokens.Add(new Token { lex = id, token_type = ReservedWords[id], line = line, column = sc });
                     else
-                        Tokens.Add(new Token { Id = tokenId++, Lexeme = ident, TokenType = Token_Class.Identifier, Line = line, Column = sCol });
+                        Tokens.Add(new Token { lex = id, token_type = Token_Class.Idenifier, line = line, column = sc });
                     continue;
                 }
 
-                // Unrecognized character
-                Errors.Add(new CompilerError { Line = line, Column = col, Lexeme = ch.ToString(), Message = "Unrecognized character: " + ch });
-                Tokens.Add(new Token { Id = tokenId++, Lexeme = ch.ToString(), TokenType = Token_Class.Unknown, Line = line, Column = col });
+                // Unrecognized Symbol
+                Errors.Error_List.Add($"[Line {line}, Col {col}] Unrecognized character: '{ch}'");
+                Tokens.Add(new Token { lex = ch.ToString(), token_type = Token_Class.Unknown, line = line, column = col });
                 i++; col++;
             }
+            JASON_Compiler.TokenStream = Tokens;
         }
     }
 }
