@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>دليل مناقشة مشروع المترجمات وكود C# — Team 36 (جامعة عين شمس)</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #2563eb;
+      --secondary: #0f172a;
+      --accent: #d97706;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #475569;
+      --border: #e2e8f0;
+      --code-bg: #0f172a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Cairo', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      font-size: 14.5px;
+    }
+
+    /* Sticky Navigation Header */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--secondary);
+      color: white;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .top-bar .title-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .top-bar .badge {
+      background: #2563eb;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .top-bar button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: 0.2s;
+    }
+    .top-bar button:hover {
+      background: #1d4ed8;
+    }
+
+    .container {
+      max-width: 1050px;
+      margin: 25px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 30px 35px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    /* University Header */
+    .univ-header {
+      border-bottom: 3px solid var(--primary);
+      padding-bottom: 18px;
+      margin-bottom: 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .univ-header .ar-side {
+      text-align: right;
+    }
+    .univ-header .en-side {
+      text-align: left;
+      direction: ltr;
+      font-family: 'Inter', sans-serif;
+    }
+
+    h1.page-title {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    p.lead {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    /* Team Members Table */
+    .team-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0 25px 0;
+      font-size: 13.5px;
+    }
+    .team-table th, .team-table td {
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      text-align: center;
+    }
+    .team-table th {
+      background: var(--secondary);
+      color: white;
+      font-weight: 700;
+    }
+    .team-table td.name {
+      text-align: right;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .team-table td.id {
+      font-family: 'Fira Code', monospace;
+      font-weight: 700;
+      color: var(--primary-light);
+      background: #f8fafc;
+      direction: ltr;
+    }
+
+    /* Sections */
+    h2.section-header {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--primary);
+      border-right: 4px solid var(--primary-light);
+      padding-right: 12px;
+      margin: 30px 0 16px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    h3.sub-header {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--secondary);
+      margin: 20px 0 10px 0;
+    }
+
+    /* Code Blocks LTR */
+    .code-container {
+      direction: ltr;
+      text-align: left;
+      background: var(--code-bg);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin: 14px 0 18px 0;
+      border: 1px solid #1e293b;
+      overflow-x: auto;
+    }
+    .code-container pre {
+      font-family: 'Fira Code', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #e2e8f0;
+      margin: 0;
+    }
+    .code-container .c-kw { color: #f472b6; font-weight: 600; }
+    .code-container .c-type { color: #38bdf8; font-weight: 600; }
+    .code-container .c-str { color: #a7f3d0; }
+    .code-container .c-com { color: #94a3b8; font-style: italic; }
+    .code-container .c-num { color: #fbbf24; }
+
+    /* Q&A Cards */
+    .qa-box {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-right: 4px solid #2563eb;
+      border-radius: 8px;
+      padding: 18px 22px;
+      margin-bottom: 18px;
+      transition: box-shadow 0.2s;
+    }
+    .qa-box:hover {
+      box-shadow: 0 4px 12px rgba(37,99,235,0.08);
+      background: #ffffff;
+    }
+    .qa-box .question {
+      font-size: 15px;
+      font-weight: 800;
+      color: #1e3a8a;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .qa-box .answer {
+      font-size: 14px;
+      color: #334155;
+      text-align: justify;
+    }
+    .qa-box .answer strong {
+      color: #0f172a;
+    }
+    .qa-box .answer ul {
+      margin-right: 20px;
+      margin-top: 8px;
+    }
+    .qa-box .answer li {
+      margin-bottom: 6px;
+    }
+
+    /* Callout Note */
+    .tip-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-right: 4px solid #3b82f6;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 18px 0;
+      font-size: 13.5px;
+      color: #1e40af;
+    }
+
+    @media print {
+      .top-bar { display: none !important; }
+      body { background: white; font-size: 12pt; }
+      .card { border: none; box-shadow: none; padding: 0; }
+      .container { max-width: 100%; margin: 0; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="title-box">
+      <span class="badge">Team 36 — تيم 36</span>
+      <span style="font-weight: 700;">دليل المناقشة وشرح كود C# لمشروع المترجمات</span>
+    </div>
+    <div style="display: flex; gap: 10px;">
+      <button onclick="window.print()">
+        طباعة الدليل أو حفظه PDF
+      </button>
+      <button style="background: #334155;" onclick="window.location.href='/milestone1_documentation.html'">
+        عرض التوثيق الرسمي A4
+      </button>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- University & Team Card -->
+    <div class="card">
+      <div class="univ-header">
+        <div class="ar-side">
+          <h2 style="font-size: 18px; font-weight: 900; color: var(--primary);">جامعة عين شمس — كلية الحاسبات والمعلومات</h2>
+          <div style="font-size: 14px; font-weight: 700; color: #475569;">قسم علوم الحاسب (Computer Science Department)</div>
+          <div style="font-size: 13px; color: #1e40af; font-weight: 600;">مقرر: نظرية المترجمات وتصميمها (Compilers Theory) — 2025/2026</div>
+        </div>
+        <div class="en-side">
+          <div style="font-size: 16px; font-weight: 800; color: var(--primary);">Ain Shams University (FCIS)</div>
+          <div style="font-size: 13px; font-weight: 600; color: #475569;">Computer Science Department</div>
+          <div style="font-size: 12px; color: #1e40af; font-weight: 600;">Compilers Project — Spring 2026</div>
+        </div>
+      </div>
+
+      <h1 class="page-title">دليل المناقشة الشامل ومراجعة الكود (Compiler Viva Guide)</h1>
+      <p class="lead">
+        هذا المستند أُعد خصيصاً ليساعد جميع أعضاء الفريق في الاستعداد التام لمناقشة مشروع المترجمات مع الأساتذة والمعيدين. يتضمن شرحاً دقيقاً لكل سطر في كود الـ C# المعدل، والإجابات النموذجية على كافة الأسئلة النظرية والعملية المتوقعة.
+      </p>
+
+      <h3 style="font-size: 15px; font-weight: 800; margin-bottom: 8px; color: var(--primary);">👥 بيانات أعضاء الفريق (Team 36)</h3>
+      <table class="team-table">
+        <thead>
+          <tr>
+            <th style="width: 8%;">#</th>
+            <th style="width: 54%; text-align: right;">اسم الطالب</th>
+            <th style="width: 38%;">رقم القيد / ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td class="name">أحمد رفاعي أنور أحمد</td>
+            <td class="id">20241700029</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td class="name">أحمد سعد عبدالعزيز السيد حامد</td>
+            <td class="id">20241700033</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td class="name">إيوان عصام الدين عبد الفضيل محمد الجوهري</td>
+            <td class="id">20241700167</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td class="name">بيشوى ماهر جورجى ساروفيم (قائد الفريق)</td>
+            <td class="id">20241700198</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td class="name">احمد حسام الدين جودة عبد المغني</td>
+            <td class="id">20241700023</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td class="name">احمد حاتم نبيل عبدالمنعم</td>
+            <td class="id">20241700021</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Code Explanation Card -->
+    <div class="card">
+      <h2 class="section-header">1. الشرح التفصيلي لكود الـ C# المعدل (`Scanner.cs`)</h2>
+      <p>
+        تم بناء الـ Scanner بالاعتماد على نموذج <strong>Deterministic Finite Automaton (DFA)</strong> المكتوب بأسلوب الـ Hand-written Lexer، وهو الأسلوب الأسرع والأكثر كفاءة في المترجمات الصناعية (مثل مترجمات GCC و Clang و Roslyn).
+      </p>
+
+      <h3 class="sub-header">أولاً: هيكل التوكن والأصناف (`enum Token_Class`)</h3>
+      <p>
+        يقوم الـ Enum بتعريف كل صنف نحوي يمكن للـ Scanner أن ينتجه. تم تحديثه ليشمل الـ 24 كلمة محجوزة للغة Rynix والمعاملات الخاصة مع الحفاظ على توافق أصناف JASON:
+      </p>
+
+      <div class="code-container">
+        <pre><span class="c-kw">public enum</span> <span class="c-type">Token_Class</span>
+{
+    <span class="c-com">// كلمات Rynix المحجوزة والأنواع الأساسية</span>
+    Var, Fun, Class, Init, New, If, Else, While, For, In, Return, Break, Continue, Print, Input,
+    TypeInt, TypeFloat, TypeString, TypeChar, TypeBool, TypeVoid, TypeArray,
+    BoolLiteral, NullLiteral,
+
+    <span class="c-com">// المعاملات الحسابية والمنطقية والمقارنات</span>
+    EqualEqualOp, NotEqualOp, LessThanOp, LessOrEqualOp, GreaterThanOp, GreaterOrEqualOp,
+    PlusOp, MinusOp, MultiplyOp, DivideOp, ModuloOp, AndOp, OrOp, NotOp,
+    AssignmentOp, Dot, DotDot,
+
+    <span class="c-com">// المعرفات والثوابت والنصوص والتعليقات والأخطاء</span>
+    Idenifier, Constant, FloatConstant, StringLiteral, CharLiteral,
+    SingleLineComment, MultiLineComment, Unknown
+}</pre>
+      </div>
+
+      <h3 class="sub-header">ثانياً: جداول التجزئة السريعة (Hash Tables for O(1) Lookup)</h3>
+      <p>
+        في مُنشئ الكلاس (`Scanner Constructor`) قمنا بملء قاموسين:
+      </p>
+      <div class="code-container">
+        <pre><span class="c-kw">private</span> <span class="c-type">Dictionary</span>&lt;<span class="c-type">string</span>, <span class="c-type">Token_Class</span>&gt; ReservedWords;
+<span class="c-kw">private</span> <span class="c-type">Dictionary</span>&lt;<span class="c-type">string</span>, <span class="c-type">Token_Class</span>&gt; Operators;</pre>
+      </div>
+      <p>
+        <strong>الفائدة الهندسية</strong>: بدلاً من رسم مسار مستقل لكل كلمة محجوزة في الـ DFA (مما يسبب انفجاراً في عدد الحالات State Explosion)، يتعامل الـ DFA مع كل كلمة كمعرف عام، ثم نستعلم عن الكلمة في جدول الـ Hash Table بزمن $O(1)$ فقط.
+      </p>
+
+      <h3 class="sub-header">ثالثاً: حلقة المسح الرئيسية (`StartScanning`) خطوة بخطوة</h3>
+      <p>الدالة تمر على كود المصدر حرفاً بحرف عبر مؤشر <code>i</code> واحد (Single Pass):</p>
+      
+      <div class="tip-box">
+        <strong>1. تتبع السطور والأعمدة:</strong> عند قراءة <code>\n</code> نقوم بزيادة <code>line++</code> وتصفير العمود <code>col = 1</code>. وعند قراءة المسافات والتابات نزيد العمود ونتخطاها لأنها فواصل لا تُصدر Tokens.
+      </div>
+
+      <div class="tip-box">
+        <strong>2. فحص التعليقات (Comments Lookahead):</strong>
+        إذا صادفنا <code>/</code>، ننظر للحرف التالي مباشرة:
+        <ul style="margin-right: 20px; margin-top: 5px;">
+          <li>إذا كان <code>/</code>: نسحب باقي السطر حتى <code>\n</code> ونصدر <code>SingleLineComment</code>.</li>
+          <li>إذا كان <code>*</code>: نسحب الحروف حتى نصادف <code>*/</code>. إذا انتهى الكود دون إغلاقه، نسجل خطأ <code>Unterminated comment block</code> في <code>Errors.Error_List</code>.</li>
+        </ul>
+      </div>
+
+      <div class="tip-box">
+        <strong>3. النصوص والاقتباسات (String Literals):</strong>
+        عند مصادفة <code>"</code>، نقرأ محتوى النص. وإذا صادفنا <code>\</code> (Backslash) نقرأ الحرف الذي يليه كـ Escape Sequence. وإذا انكسر السطر أو انتهى الملف دون إغلاق الاقتباس، نسجل خطأ <code>Unterminated string literal</code> دون أن يتوقف البرنامج.
+      </div>
+
+      <div class="tip-box">
+        <strong>4. الأعداد والتمييز بين الكسر العشري ومعامل النطاق (Float vs Range <code>..</code>):</strong>
+        عند قراءة رقم، نجمع الأرقام المتتالية. وإذا صادفنا نقطة <code>.</code>:
+        <ul style="margin-right: 20px; margin-top: 5px;">
+          <li>إذا كان بعدها نقطة أخرى <code>..</code> (مثل <code>1..5</code> في حلقة for)، نتوقف فوراً ونعتبر الرقم <code>Constant</code>، ثم نصدر <code>..</code> كتوكن منفصل <code>DotDot</code>.</li>
+          <li>إذا كان بعدها أرقام عادية، نعتبره <code>FloatConstant</code>.</li>
+          <li>إذا التصقت به حروف (مثل <code>123test</code>)، يُسجل كخطأ فوري (Invalid Identifier starting with digit).</li>
+        </ul>
+      </div>
+
+      <div class="tip-box">
+        <strong>5. الرموز والعمليات المزدوجة (Two-Character Operators):</strong>
+        نفحص الحرفين معاً أولاً: <code>==</code>, <code>!=</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>&amp;&amp;</code>, <code>||</code>, <code>..</code> لضمان تطبيق مبدأ <strong>Maximal Munch (Longest Match)</strong>، ثم نتحقق من الرموز الأحادية.
+      </div>
+    </div>
+
+    <!-- Viva Q&A Card -->
+    <div class="card">
+      <h2 class="section-header">2. أسئلة المناقشة المتوقعة وإجاباتها النموذجية (Viva Questions)</h2>
+      
+      <div class="qa-box">
+        <div class="question">س1: ما هو الدور الأساسي للـ Lexical Analyzer (Scanner) في دورة حياة المترجم؟</div>
+        <div class="answer">
+          الـ Scanner هو المرحلة الأولى في المترجم (Front-End). وظيفته الأساسية هي قراءة تدفق الحروف من كود المصدر (Character Stream)، وحذف الفواصل والمسافات والتعليقات غير المؤثرة، ثم تحويل الحروف المترابطة إلى وحدات لغوية ذات معنى تُسمى (Tokens). كما يقوم بتسجيل مواقع الأخطاء المعجمية (السطر والعمود) لتسهيل التصحيح، ويسلم تدفق الـ Tokens إلى مرحلة الـ Parser.
+        </div>
+      </div>
+
+      <div class="qa-box">
+        <div class="question">س2: كيف فرّقتم بين المعرف (Identifier) والكلمة المحجوزة (Keyword) برمجياً ونظرياً؟</div>
+        <div class="answer">
+          <strong>نظرياً</strong>: كلاهما يتطابق مع نفس الـ Regular Expression وهو <code>[a-zA-Z_][a-zA-Z0-9_]*</code>.<br>
+          <strong>برمجياً</strong>: لتجنب بناء DFA معقد يحتوي مئات الحالات لكل كلمة محجوزة، يقوم الـ DFA بقبول الكلمة كـ Identifier عام، وبمجرد اكتمال قراءتها نقوم بعمل استعلام في جدول تجزئة (Lookup Table / Hash Map). إذا وُجدت الكلمة في الجدول يتم تصنيفها كـ Keyword خاصة (مثل <code>Var</code> أو <code>While</code>)، وإذا لم توجد تُصنف كـ <code>Idenifier</code>. هذا الأسلوب يقلل حجم الآلة المنتهية ويحافظ على زمن استعلام ثابت $O(1)$.
+        </div>
+      </div>
+
+      <div class="qa-box">
+        <div class="question">س3: ما الفرق بين NFA و DFA، ولماذا يُترجم المترجم الـ NFA إلى DFA؟</div>
+        <div class="answer">
+          <ul>
+            <li><strong>الـ NFA</strong>: آلة غير محددة، يمكن أن تحتوي على انتقالات فارغة ($\epsilon$-transitions)، ومن الممكن لحالة واحدة أن تنتقل لأكثر من حالة لنفس المدخل، مما يتطلب تجربة مسارات متعددة (Backtracking).</li>
+            <li><strong>الـ DFA</strong>: آلة محددة تماماً، لكل حالة ومدخل انتقال وحيد، ولا توجد انتقالات $\epsilon$.</li>
+            <li><strong>سبب التحويل</strong>: الـ DFA يعمل بسرعة فائقة في الذاكرة بزمن $O(1)$ لكل حرف يتم مسحه، مما يجعل وقت فحص الكود بالكامل خطياً $O(N)$ دون أي بطء أو تراجع.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="qa-box">
+        <div class="question">س4: كيف تم التعامل مع قاعدة الـ Longest Match (Maximal Munch) في العمليات مثل = و ==؟</div>
+        <div class="answer">
+          قاعدة الـ Maximal Munch تنص على أن المترجم يجب أن يطابق أطول سلسلة ممكنة من الحروف لتكوين توكن. في الكود، نقوم بفحص الحرفين معاً أولاً (`sourceCode.Substring(i, 2)`). إذا تطابقا مع <code>==</code> نصدره كـ <code>EqualEqualOp</code>، وفقط إذا لم يتطابق الحرفان نبدأ بفحص الحرف الفردي <code>=</code> كـ <code>AssignmentOp</code>.
+        </div>
+      </div>
+
+      <div class="qa-box">
+        <div class="question">س5: كيف تعاملتم مع الأخطاء اللغوية (Lexical Errors) وهل يتوقف المترجم عند أول خطأ؟</div>
+        <div class="answer">
+          طبقنا استراتيجية <strong>Panic-Mode / Error Recovery</strong>:
+          المترجم <strong>لا ينهار (No Crash)</strong> ولا يتوقف عند أول خطأ، بل يقوم بتسجيل الخطأ في قائمة <code>Errors.Error_List</code> موضحاً رقم السطر والعمود وسبب الخطأ (مثل معرف يبدأ برقم <code>123name</code> أو نص لم يُغلق)، ويصدر التوكن كـ <code>Unknown</code>، ثم يواصل فحص باقي الملف ليظهر للمستخدم تقريراً شاملاً بكافة الأخطاء مرة واحدة.
+        </div>
+      </div>
+
+      <div class="qa-box">
+        <div class="question">س6: ما هو التعقيد الزمني (Time Complexity) والذاكري (Space Complexity) للـ Scanner المكتوب؟</div>
+        <div class="answer">
+          <ul>
+            <li><strong>Time Complexity: $O(N)$</strong> — حيث $N$ هو عدد حروف كود المصدر بالكامل، لأن الـ Scanner يمر على الحروف في مسار أحادي (Single Pass) وكل انتقال يتم بزمن $O(1)$.</li>
+            <li><strong>Space Complexity: $O(T)$</strong> — حيث $T$ هو عدد الـ Tokens المنتجة في الذاكرة.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="qa-box">
+        <div class="question">س7: كيف تم حل مشكلة التداخل بين الكسر العشري `15.75` ومعامل النطاق `1..5` في لغة Rynix؟</div>
+        <div class="answer">
+          باستخدام تقنية <strong>Lookahead</strong>: عندما يقرأ المترجم رقماً ثم يصادف نقطة <code>.</code>، يفحص الحرف التالي فوراً:
+          إذا كان الحرف التالي نقطة أخرى <code>.</code>، يدرك الـ Scanner فوراً أن هذه النقطة تابعة لمعامل النطاق <code>..</code>، فيوقف قراءة الرقم الحالي ويصدره كـ <code>Constant</code>، ثم يقرأ <code>..</code> كـ <code>DotDot</code> في الخطوة التالية. أما إذا كان التالي رقماً فيستمر ويصدره كـ <code>FloatConstant</code>.
+        </div>
+      </div>
+    </div>
+
+    <!-- Visual Studio Run Card -->
+    <div class="card">
+      <h2 class="section-header">3. كيفية تشغيل المشروع وتجربته في Visual Studio</h2>
+      <ol style="margin-right: 25px; line-height: 2;">
+        <li>افتح الملف <code>JASON_Compiler.sln</code> في بيئة Visual Studio.</li>
+        <li>اضغط على <code>F5</code> أو زر <strong>Start</strong> لتشغيل المشروع بصيغة Windows Forms.</li>
+        <li>الصق أي كود Rynix أو JASON في المحرر (<code>textBox1</code>).</li>
+        <li>اضغط زر <strong>Compile !</strong>: ستظهر لك قائمة التوكنز في جدول <code>dataGridView1</code> وتظهر أي أخطاء بالتفصيل في <code>textBox2</code>.</li>
+      </ol>
+    </div>
+
+  </div>
+
+</body>
+</html>

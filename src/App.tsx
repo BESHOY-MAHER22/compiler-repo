@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { RynixScannerIDE } from './components/RynixScannerIDE';
 import { DocumentationView } from './components/DocumentationView';
+import { DiscussionGuideView } from './components/DiscussionGuideView';
 import { JasonCompilerView } from './components/JasonCompilerView';
-import { Sparkles, FileText, Code2, Cpu } from 'lucide-react';
+import { Sparkles, FileText, Code2, Cpu, HelpCircle } from 'lucide-react';
 
 export default function App() {
-  const [currentView, setCurrentView] = useState<'rynix-scanner' | 'documentation' | 'jason-template'>('rynix-scanner');
+  const [currentView, setCurrentView] = useState<'rynix-scanner' | 'documentation' | 'discussion-guide' | 'jason-template'>('rynix-scanner');
 
   return (
     <div className="flex flex-col h-screen w-screen overflow-hidden bg-slate-950 font-sans text-slate-100 antialiased">
@@ -17,16 +18,16 @@ export default function App() {
           </div>
           <div>
             <span className="font-bold text-sm tracking-tight text-white">
-              Compilers Studio
+              Compilers Studio — Team 36
             </span>
             <span className="ml-2 text-xs text-slate-400 hidden sm:inline">
-              Rynix Language & JASON Compiler
+              جامعة عين شمس • كلية الحاسبات والمعلومات • قسم CS
             </span>
           </div>
         </div>
 
         {/* View Switcher Tabs */}
-        <div className="flex items-center p-1 bg-slate-950 rounded-lg border border-slate-800 text-xs">
+        <div className="flex items-center p-1 bg-slate-950 rounded-lg border border-slate-800 text-xs gap-1">
           <button
             onClick={() => setCurrentView('rynix-scanner')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md font-semibold transition cursor-pointer ${
@@ -52,6 +53,18 @@ export default function App() {
           </button>
 
           <button
+            onClick={() => setCurrentView('discussion-guide')}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md font-semibold transition cursor-pointer ${
+              currentView === 'discussion-guide'
+                ? 'bg-emerald-600 text-white shadow-sm'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+            }`}
+          >
+            <HelpCircle className="w-3.5 h-3.5" />
+            <span>دليل المناقشة وشرح C# (Viva)</span>
+          </button>
+
+          <button
             onClick={() => setCurrentView('jason-template')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md font-semibold transition cursor-pointer ${
               currentView === 'jason-template'
@@ -72,6 +85,9 @@ export default function App() {
         )}
         {currentView === 'documentation' && (
           <DocumentationView onBack={() => setCurrentView('rynix-scanner')} />
+        )}
+        {currentView === 'discussion-guide' && (
+          <DiscussionGuideView onBack={() => setCurrentView('rynix-scanner')} />
         )}
         {currentView === 'jason-template' && (
           <JasonCompilerView />
