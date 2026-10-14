@@ -1,0 +1,7 @@
+{
+  "name": "JASON & Rynix Compiler Studio",
+  "description": "Full-featured web compiler, lexical scanner, syntax parser, symbol table, and execution environment for the JASON and Rynix programming languages.",
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
